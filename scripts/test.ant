@@ -1,0 +1,119 @@
+
+print("");
+print("--------------------------");
+print("Running test.ant...");
+
+function f1()
+{
+	// Testing outer scope function
+	print("f1() outer");
+	return;
+};
+
+function f2(a, b, c)
+{
+	function f1()
+	{
+		// Testing inner scope function
+		print("f1() inner");
+		return;
+	};
+	
+	f1();
+	
+	function f3()
+	{
+		print("f3()");
+		return;
+	};
+
+	f3();
+	
+	/* Testing
+		/* nested
+			/* comments
+				// ...
+			*/
+		*/
+	*/
+	
+	local i = 5;
+	local j = 6;
+
+	print(i + " < 5: " + (i < 5));
+	print(i + " <= 5: " + (i <= 5));
+	print(i + " > 5: " + (i > 5));
+	print(i + " >= 5: " + (i >= 5));
+	print(i + " == 5: " + (i == 5));
+	print(i + " != 5: " + (i != 5));
+
+	// Testing if/then
+	if (i < 5)
+		print(i + " < 5")
+	else if (i > 5)
+		print(i + " > 5")
+	else
+	{
+		if (i < j)
+			print("i < j");
+			
+		print(i + " == 5");
+	};
+	
+	// Testing loop
+	i = 0;
+	while (i <= 5)
+	{
+		print("while " + i + " of 5");
+		i = i + 1;
+	};
+	
+	// Testing array access
+	local array = [1, 2.0, c];
+
+	i = 0;
+	while (i < 3)
+	{
+		print("array[" + i + "] = " + array[i]);
+		i = i + 1;
+	};
+	
+	// Testing array assignment
+	array[0] = 1234;
+	print(array[0]);
+	
+	// Testing + between int/float and string
+	print("a: " + a);
+	print("b: " + b);
+	print("c: " + c);
+	print("'a' + 'b': " + ("a" + "b"));
+	
+	// Testing other operators
+	print("5.0 + a: " + (5.0 + a));
+	print("5.0 - a: " + (5.0 - a));
+	print("5.0 * b: " + (5.0 * b));
+	print("20.0 / b: " + (20.0 / b));
+	print("10 mod 4: " + 10 % 4);
+	
+	// Testing implicit conversion to float
+	return a + (b * c);
+};
+
+function TestAdd(a, b)
+{
+	local c = a + b;
+	print("add(" + a + ", " + b + "): " + c);
+	return c;
+};
+
+// Showing global statements
+f1();
+local x = f2(0.5, 2, 3.0);
+print(x);
+TestAdd(1, 2);
+TestAdd(4, 8);
+TestAdd(0.0, 0);
+TestAdd(-1, -2.0);
+TestAdd(3, -3);
+print("Done!");
+print("");

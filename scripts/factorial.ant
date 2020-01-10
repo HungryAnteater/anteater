@@ -1,0 +1,14 @@
+print("");
+print("--------------------------");
+print("Running factorial.ant...");
+
+function factorial(n)
+{
+	if (n == 0)
+		return 1
+	else
+		return n * factorial(n - 1);
+};
+
+local f7 = factorial(7);
+print("factorial(7) = " + f7);
