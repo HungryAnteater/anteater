@@ -2,5 +2,5 @@
 *.suo
 *.user
 
-/_int/
-/_bin/
+_int/
+_bin/
