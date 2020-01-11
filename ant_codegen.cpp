@@ -229,8 +229,9 @@ void AntCodeGen::CodeGen(AntNode* n)
 	{
 		//string msg = format("CodeGen Error: line %d, %s\n", n->line, e.what());
 		string msg = ReportError(n->line, lines.at(n->line).c_str(), e.what());
-		Print(msg);
-		throw AntError("CodeGen Error: line %d, %s\n    %s\n", n->line, e.what(), lines.at(n->line).c_str());
+		//Print(msg);
+		//throw AntError(msg.c_str()); //exception(msg.c_str());
+		throw exception(msg.c_str());
 	}
 }
 

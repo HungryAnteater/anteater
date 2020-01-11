@@ -28,7 +28,8 @@ AntParser::AntParser(const char* src): source(src), lex(src)
 	}
 	catch (const AntError& e)
 	{
-		throw AntError(ReportError(lex.line, lex.context.c_str(), e.what()).c_str());
+		string msg = ReportError(lex.line, lex.context.c_str(), e.what());
+		throw exception(msg.c_str());
 	}
 }
 

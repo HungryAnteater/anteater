@@ -127,19 +127,6 @@ enum AntNodeType
 	NUM_NODE_TYPES
 };
 
-using sview = string_view;
-
-inline sview Left(const sview& s, size_t i) { return s.substr(0, i); }
-inline sview Right(const sview& s, size_t i) { return s.substr(min(i+1, s.size())); }
-inline sview RightIncl(const sview& s, size_t i) { return s.substr(min(i, s.size())); }
-inline pair<sview, sview> Split(const sview& s, size_t i) { return pair{Left(s, i), Right(s, i)}; }
-inline pair<sview, sview> SplitIncl(const sview& s, size_t i) { return pair{Left(s, i), RightIncl(s, i)}; }
-
-inline sview Left(const sview& s, char div) { return Left(s, s.find(div)); }
-inline sview Right(const sview& s, char div) { return Right(s, s.rfind(div)); }
-inline pair<sview, sview> Split(const sview& s, char div) { return Split(s, s.find(div)); }
-inline pair<sview, sview> SplitLast(const sview& s, char div) { return Split(s, s.rfind(div)); }
-
 class AntLexer
 {
 public:

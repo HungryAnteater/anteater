@@ -1,0 +1,563 @@
+
+Compiling factorial.ant...
+    Parsing...
+
+  node
+    function
+      id: __file0
+      func_params
+      func_locals
+      node
+        call
+          id: print
+          string: ""
+        call
+          id: print
+          string: "--------------------------"
+        call
+          id: print
+          string: "Running factorial.ant..."
+        function
+          id: factorial
+          func_params
+            id: n
+          func_locals
+          node
+            if
+              ==
+                id: n
+                int: 0
+              return
+                int: 1
+              return
+                *
+                  id: n
+                  call
+                    id: factorial
+                    -
+                      id: n
+                      int: 1
+        local
+          id: f7
+          call
+            id: factorial
+            int: 7
+        call
+          id: print
+          +
+            string: "factorial(7) = "
+            id: f7
+    call
+      id: __file0
+    Generating code...
+AddFunction: __file0, 0
+AddFunction: factorial, 0
+AddParam: n, -2
+        AddLocal: f7, 1
+
+Compiling test.ant...
+    Parsing...
+
+  node
+    function
+      id: __file1
+      func_params
+      func_locals
+      node
+        call
+          id: print
+          string: ""
+        call
+          id: print
+          string: "--------------------------"
+        call
+          id: print
+          string: "Running test.ant..."
+        function
+          id: f1
+          func_params
+          func_locals
+          node
+            call
+              id: print
+              string: "f1() outer"
+            return
+        function
+          id: f2
+          func_params
+            id: a
+            id: b
+            id: c
+          func_locals
+          node
+            function
+              id: f1
+              func_params
+              func_locals
+              node
+                call
+                  id: print
+                  string: "f1() inner"
+                return
+            call
+              id: f1
+            function
+              id: f3
+              func_params
+              func_locals
+              node
+                call
+                  id: print
+                  string: "f3()"
+                return
+            call
+              id: f3
+            local
+              id: i
+              int: 5
+            local
+              id: j
+              int: 6
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " < 5: "
+                  <
+                    id: i
+                    int: 5
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " <= 5: "
+                  <=
+                    id: i
+                    int: 5
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " > 5: "
+                  >
+                    id: i
+                    int: 5
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " >= 5: "
+                  >=
+                    id: i
+                    int: 5
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " == 5: "
+                  ==
+                    id: i
+                    int: 5
+            call
+              id: print
+              +
+                id: i
+                +
+                  string: " != 5: "
+                  !=
+                    id: i
+                    int: 5
+            if
+              <
+                id: i
+                int: 5
+              call
+                id: print
+                +
+                  id: i
+                  string: " < 5"
+              if
+                >
+                  id: i
+                  int: 5
+                call
+                  id: print
+                  +
+                    id: i
+                    string: " > 5"
+                node
+                  if
+                    <
+                      id: i
+                      id: j
+                    call
+                      id: print
+                      string: "i < j"
+                  call
+                    id: print
+                    +
+                      id: i
+                      string: " == 5"
+            =
+              id: i
+              int: 0
+            while
+              <=
+                id: i
+                int: 5
+              node
+                call
+                  id: print
+                  +
+                    string: "while "
+                    +
+                      id: i
+                      string: " of 5"
+                =
+                  id: i
+                  +
+                    id: i
+                    int: 1
+            local
+              id: array
+              array: ...
+                int: 1
+                float: 2f
+                id: c
+            =
+              id: i
+              int: 0
+            while
+              <
+                id: i
+                int: 3
+              node
+                call
+                  id: print
+                  +
+                    string: "array["
+                    +
+                      id: i
+                      +
+                        string: "] = "
+                        
+                          id: array
+                          id: i
+                =
+                  id: i
+                  +
+                    id: i
+                    int: 1
+            
+              id: array
+              int: 0
+              int: 1234
+            call
+              id: print
+              
+                id: array
+                int: 0
+            call
+              id: print
+              +
+                string: "a: "
+                id: a
+            call
+              id: print
+              +
+                string: "b: "
+                id: b
+            call
+              id: print
+              +
+                string: "c: "
+                id: c
+            call
+              id: print
+              +
+                string: "'a' + 'b': "
+                +
+                  string: "a"
+                  string: "b"
+            call
+              id: print
+              +
+                string: "5.0 + a: "
+                +
+                  float: 5f
+                  id: a
+            call
+              id: print
+              +
+                string: "5.0 - a: "
+                -
+                  float: 5f
+                  id: a
+            call
+              id: print
+              +
+                string: "5.0 * b: "
+                *
+                  float: 5f
+                  id: b
+            call
+              id: print
+              +
+                string: "20.0 / b: "
+                /
+                  float: 20f
+                  id: b
+            call
+              id: print
+              +
+                string: "10 mod 4: "
+                %
+                  int: 10
+                  int: 4
+            return
+              +
+                id: a
+                *
+                  id: b
+                  id: c
+        function
+          id: TestAdd
+          func_params
+            id: a
+            id: b
+          func_locals
+          node
+            local
+              id: c
+              +
+                id: a
+                id: b
+            call
+              id: print
+              +
+                string: "add("
+                +
+                  id: a
+                  +
+                    string: ", "
+                    +
+                      id: b
+                      +
+                        string: "): "
+                        id: c
+            return
+              id: c
+        call
+          id: f1
+        local
+          id: x
+          call
+            id: f2
+            float: 0.5f
+            int: 2
+            float: 3f
+        call
+          id: print
+          id: x
+        call
+          id: TestAdd
+          int: 1
+          int: 2
+        call
+          id: TestAdd
+          int: 4
+          int: 8
+        call
+          id: TestAdd
+          float: 0f
+          int: 0
+        call
+          id: TestAdd
+          neg
+            int: 1
+          neg
+            float: 2f
+        call
+          id: TestAdd
+          int: 3
+          neg
+            int: 3
+        call
+          id: print
+          string: "Done!"
+        call
+          id: print
+          string: ""
+    call
+      id: __file1
+    Generating code...
+AddFunction: __file1, 1
+AddFunction: f1, 0
+AddFunction: f2, 1
+AddParam: a, -2
+AddParam: b, -3
+AddParam: c, -4
+AddFunction: f1, 0
+AddFunction: f3, 1
+        AddLocal: i, 1
+        AddLocal: j, 2
+        AddLocal: array, 3
+AddFunction: TestAdd, 2
+AddParam: a, -2
+AddParam: b, -3
+        AddLocal: c, 1
+        AddLocal: x, 1
+
+Compiling types.ant...
+    Parsing...
+
+  node
+    function
+      id: __file2
+      func_params
+      func_locals
+      node
+        call
+          id: print
+          string: ""
+        call
+          id: print
+          string: "--------------------------"
+        call
+          id: print
+          string: "\nRunning types.ant..."
+        local
+          id: INT_MAX
+          int: 2147483647
+        local
+          id: INT_MIN
+          neg
+            int: 2147483647
+        local
+          id: UINT_MIN
+          int: 0
+        local
+          id: UINT_MAX
+          int: 2147483647
+        call
+          id: print
+          +
+            string: "INT_MIN, INT_MAX: "
+            +
+              id: INT_MIN
+              +
+                string: ", "
+                id: INT_MAX
+        call
+          id: print
+          +
+            string: "UINT_MIN, UINT_MAX: "
+            +
+              id: UINT_MIN
+              +
+                string: ", "
+                id: UINT_MAX
+        local
+          id: i1
+          int: 25
+        local
+          id: i2
+          neg
+            int: 4
+        local
+          id: i3
+          id: INT_MAX
+        local
+          id: i4
+          id: INT_MIN
+        local
+          id: i5
+          id: UINT_MIN
+        local
+          id: i6
+          id: UINT_MAX
+        local
+          id: f1
+          neg
+            float: 3f
+        local
+          id: f2
+          float: 250.4f
+        local
+          id: f3
+          int: 3
+        local
+          id: f5
+          float: 0f
+        local
+          id: f6
+          float: 0.1f
+        local
+          id: f7
+          float: 0.5f
+        local
+          id: f8
+          float: 0.1f
+        local
+          id: vi
+          array: ...
+            id: i1
+            id: i2
+            id: i3
+            id: i4
+            id: i5
+            id: i6
+        local
+          id: vf
+          array: ...
+            id: f1
+            id: f2
+            id: f3
+            id: f4
+            id: f5
+            id: f6
+            id: f7
+            id: f8
+        call
+          id: print
+          +
+            string: "vi: "
+            id: vi
+        call
+          id: print
+          +
+            string: "vf: "
+            id: vf
+    call
+      id: __file2
+    Generating code...
+AddFunction: __file2, 2
+        AddLocal: INT_MAX, 1
+        AddLocal: INT_MIN, 2
+        AddLocal: UINT_MIN, 3
+        AddLocal: UINT_MAX, 4
+        AddLocal: i1, 5
+        AddLocal: i2, 6
+        AddLocal: i3, 7
+        AddLocal: i4, 8
+        AddLocal: i5, 9
+        AddLocal: i6, 10
+        AddLocal: f1, 11
+        AddLocal: f2, 12
+        AddLocal: f3, 13
+        AddLocal: f5, 14
+        AddLocal: f6, 15
+        AddLocal: f7, 16
+        AddLocal: f8, 17
+        AddLocal: vi, 18
+        AddLocal: vf, 19
+ERROR: Could not find symbol: f4
+    line 29
+    ... 
+
+--------------- Done ---------------

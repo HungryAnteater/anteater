@@ -76,7 +76,7 @@ int main(int numArgs, char* args[])
 
 		vm.Run();
 	}
-	catch (const AntError& e)
+	catch (const exception& e)
 	{
 		Print(e.what());
 	}
