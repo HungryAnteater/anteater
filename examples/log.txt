@@ -47,13 +47,10 @@ Compiling factorial.ant...
           +
             string: "factorial(7) = "
             id: f7
+        return
     call
       id: __file0
     Generating code...
-AddFunction: __file0, 0
-AddFunction: factorial, 0
-AddParam: n, -2
-        AddLocal: f7, 1
 
 Compiling test.ant...
     Parsing...
@@ -393,25 +390,10 @@ Compiling test.ant...
         call
           id: print
           string: ""
+        return
     call
       id: __file1
     Generating code...
-AddFunction: __file1, 1
-AddFunction: f1, 0
-AddFunction: f2, 1
-AddParam: a, -2
-AddParam: b, -3
-AddParam: c, -4
-AddFunction: f1, 0
-AddFunction: f3, 1
-        AddLocal: i, 1
-        AddLocal: j, 2
-        AddLocal: array, 3
-AddFunction: TestAdd, 2
-AddParam: a, -2
-AddParam: b, -3
-        AddLocal: c, 1
-        AddLocal: x, 1
 
 Compiling types.ant...
     Parsing...
@@ -492,6 +474,9 @@ Compiling types.ant...
           id: f3
           int: 3
         local
+          id: f4
+          string: "a"
+        local
           id: f5
           float: 0f
         local
@@ -533,31 +518,1127 @@ Compiling types.ant...
           +
             string: "vf: "
             id: vf
+        return
     call
       id: __file2
     Generating code...
-AddFunction: __file2, 2
-        AddLocal: INT_MAX, 1
-        AddLocal: INT_MIN, 2
-        AddLocal: UINT_MIN, 3
-        AddLocal: UINT_MAX, 4
-        AddLocal: i1, 5
-        AddLocal: i2, 6
-        AddLocal: i3, 7
-        AddLocal: i4, 8
-        AddLocal: i5, 9
-        AddLocal: i6, 10
-        AddLocal: f1, 11
-        AddLocal: f2, 12
-        AddLocal: f3, 13
-        AddLocal: f5, 14
-        AddLocal: f6, 15
-        AddLocal: f7, 16
-        AddLocal: f8, 17
-        AddLocal: vi, 18
-        AddLocal: vf, 19
-ERROR: Could not find symbol: f4
-    line 29
-    ... 
+
+
+CodeGen Output:
+   0:		CALL			main  0  0
+   4:		BRA             53
+   6:		PUSH_STRING             
+   8:		PRINT
+   9:		PUSH_STRING             --------------------------
+  11:		PRINT
+  12:		PUSH_STRING             Running factorial.ant...
+  14:		PRINT
+  15:		BRA             25
+  17:		PUSH_VAR             -2
+  19:		PUSH_INT             0
+  21:		EQUAL
+  22:		BRZ				5
+  24:		PUSH_INT             1
+  26:		RETURN
+  27:		BRA             13
+  29:		PUSH_VAR             -2
+  31:		PUSH_VAR             -2
+  33:		PUSH_INT             1
+  35:		SUB
+  36:		CALL			factorial  1  0
+  40:		MUL
+  41:		RETURN
+  42:		PUSH_INT             7
+  44:		CALL			factorial  1  0
+  48:		ASSIGN			1
+  50:		PUSH_STRING             factorial(7) = 
+  52:		PUSH_VAR             1
+  54:		ADD
+  55:		PRINT
+  56:		PUSH_INT             0
+  58:		RETURN
+  59:		CALL			__file0  0  1
+  63:		BRA             446
+  65:		PUSH_STRING             
+  67:		PRINT
+  68:		PUSH_STRING             --------------------------
+  70:		PRINT
+  71:		PUSH_STRING             Running test.ant...
+  73:		PRINT
+  74:		BRA             6
+  76:		PUSH_STRING             f1() outer
+  78:		PRINT
+  79:		PUSH_INT             0
+  81:		RETURN
+  82:		BRA             320
+  84:		BRA             6
+  86:		PUSH_STRING             f1() inner
+  88:		PRINT
+  89:		PUSH_INT             0
+  91:		RETURN
+  92:		CALL			f1  0  0
+  96:		BRA             6
+  98:		PUSH_STRING             f3()
+ 100:		PRINT
+ 101:		PUSH_INT             0
+ 103:		RETURN
+ 104:		CALL			f3  0  0
+ 108:		PUSH_INT             5
+ 110:		ASSIGN			1
+ 112:		PUSH_INT             6
+ 114:		ASSIGN			2
+ 116:		PUSH_VAR             1
+ 118:		PUSH_STRING              < 5: 
+ 120:		PUSH_VAR             1
+ 122:		PUSH_INT             5
+ 124:		LESS
+ 125:		ADD
+ 126:		ADD
+ 127:		PRINT
+ 128:		PUSH_VAR             1
+ 130:		PUSH_STRING              <= 5: 
+ 132:		PUSH_VAR             1
+ 134:		PUSH_INT             5
+ 136:		LEQUAL
+ 137:		ADD
+ 138:		ADD
+ 139:		PRINT
+ 140:		PUSH_VAR             1
+ 142:		PUSH_STRING              > 5: 
+ 144:		PUSH_VAR             1
+ 146:		PUSH_INT             5
+ 148:		GREATER
+ 149:		ADD
+ 150:		ADD
+ 151:		PRINT
+ 152:		PUSH_VAR             1
+ 154:		PUSH_STRING              >= 5: 
+ 156:		PUSH_VAR             1
+ 158:		PUSH_INT             5
+ 160:		GEQUAL
+ 161:		ADD
+ 162:		ADD
+ 163:		PRINT
+ 164:		PUSH_VAR             1
+ 166:		PUSH_STRING              == 5: 
+ 168:		PUSH_VAR             1
+ 170:		PUSH_INT             5
+ 172:		EQUAL
+ 173:		ADD
+ 174:		ADD
+ 175:		PRINT
+ 176:		PUSH_VAR             1
+ 178:		PUSH_STRING              != 5: 
+ 180:		PUSH_VAR             1
+ 182:		PUSH_INT             5
+ 184:		NEQUAL
+ 185:		ADD
+ 186:		ADD
+ 187:		PRINT
+ 188:		PUSH_VAR             1
+ 190:		PUSH_INT             5
+ 192:		LESS
+ 193:		BRZ				8
+ 195:		PUSH_VAR             1
+ 197:		PUSH_STRING              < 5
+ 199:		ADD
+ 200:		PRINT
+ 201:		BRA             33
+ 203:		PUSH_VAR             1
+ 205:		PUSH_INT             5
+ 207:		GREATER
+ 208:		BRZ				8
+ 210:		PUSH_VAR             1
+ 212:		PUSH_STRING              > 5
+ 214:		ADD
+ 215:		PRINT
+ 216:		BRA             18
+ 218:		PUSH_VAR             1
+ 220:		PUSH_VAR             2
+ 222:		LESS
+ 223:		BRZ				5
+ 225:		PUSH_STRING             i < j
+ 227:		PRINT
+ 228:		BRA             0
+ 230:		PUSH_VAR             1
+ 232:		PUSH_STRING              == 5
+ 234:		ADD
+ 235:		PRINT
+ 236:		PUSH_INT             0
+ 238:		ASSIGN			1
+ 240:		PUSH_VAR             1
+ 242:		PUSH_INT             5
+ 244:		LEQUAL
+ 245:		BRZ				18
+ 247:		PUSH_STRING             while 
+ 249:		PUSH_VAR             1
+ 251:		PUSH_STRING              of 5
+ 253:		ADD
+ 254:		ADD
+ 255:		PRINT
+ 256:		PUSH_VAR             1
+ 258:		PUSH_INT             1
+ 260:		ADD
+ 261:		ASSIGN			1
+ 263:		BRA             -25
+ 265:		PUSH_VAR             -4
+ 267:		PUSH_FLOAT             2.000000
+ 269:		PUSH_INT             1
+ 271:		PUSH_ARRAY             3
+ 273:		ASSIGN			3
+ 275:		PUSH_INT             0
+ 277:		ASSIGN			1
+ 279:		PUSH_VAR             1
+ 281:		PUSH_INT             3
+ 283:		LESS
+ 284:		BRZ				24
+ 286:		PUSH_STRING             array[
+ 288:		PUSH_VAR             1
+ 290:		PUSH_STRING             ] = 
+ 292:		PUSH_VAR             3
+ 294:		PUSH_VAR             1
+ 296:		GET
+ 297:		ADD
+ 298:		ADD
+ 299:		ADD
+ 300:		PRINT
+ 301:		PUSH_VAR             1
+ 303:		PUSH_INT             1
+ 305:		ADD
+ 306:		ASSIGN			1
+ 308:		BRA             -31
+ 310:		PUSH_VAR             3
+ 312:		PUSH_INT             0
+ 314:		PUSH_INT             1234
+ 316:		SET
+ 317:		PUSH_VAR             3
+ 319:		PUSH_INT             0
+ 321:		GET
+ 322:		PRINT
+ 323:		PUSH_STRING             a: 
+ 325:		PUSH_VAR             -2
+ 327:		ADD
+ 328:		PRINT
+ 329:		PUSH_STRING             b: 
+ 331:		PUSH_VAR             -3
+ 333:		ADD
+ 334:		PRINT
+ 335:		PUSH_STRING             c: 
+ 337:		PUSH_VAR             -4
+ 339:		ADD
+ 340:		PRINT
+ 341:		PUSH_STRING             'a' + 'b': 
+ 343:		PUSH_STRING             a
+ 345:		PUSH_STRING             b
+ 347:		ADD
+ 348:		ADD
+ 349:		PRINT
+ 350:		PUSH_STRING             5.0 + a: 
+ 352:		PUSH_FLOAT             5.000000
+ 354:		PUSH_VAR             -2
+ 356:		ADD
+ 357:		ADD
+ 358:		PRINT
+ 359:		PUSH_STRING             5.0 - a: 
+ 361:		PUSH_FLOAT             5.000000
+ 363:		PUSH_VAR             -2
+ 365:		SUB
+ 366:		ADD
+ 367:		PRINT
+ 368:		PUSH_STRING             5.0 * b: 
+ 370:		PUSH_FLOAT             5.000000
+ 372:		PUSH_VAR             -3
+ 374:		MUL
+ 375:		ADD
+ 376:		PRINT
+ 377:		PUSH_STRING             20.0 / b: 
+ 379:		PUSH_FLOAT             20.000000
+ 381:		PUSH_VAR             -3
+ 383:		DIV
+ 384:		ADD
+ 385:		PRINT
+ 386:		PUSH_STRING             10 mod 4: 
+ 388:		PUSH_INT             10
+ 390:		PUSH_INT             4
+ 392:		MOD
+ 393:		ADD
+ 394:		PRINT
+ 395:		PUSH_VAR             -2
+ 397:		PUSH_VAR             -3
+ 399:		PUSH_VAR             -4
+ 401:		MUL
+ 402:		ADD
+ 403:		RETURN
+ 404:		BRA             28
+ 406:		PUSH_VAR             -2
+ 408:		PUSH_VAR             -3
+ 410:		ADD
+ 411:		ASSIGN			1
+ 413:		PUSH_STRING             add(
+ 415:		PUSH_VAR             -2
+ 417:		PUSH_STRING             , 
+ 419:		PUSH_VAR             -3
+ 421:		PUSH_STRING             ): 
+ 423:		PUSH_VAR             1
+ 425:		ADD
+ 426:		ADD
+ 427:		ADD
+ 428:		ADD
+ 429:		ADD
+ 430:		PRINT
+ 431:		PUSH_VAR             1
+ 433:		RETURN
+ 434:		CALL			f1  0  0
+ 438:		PUSH_FLOAT             3.000000
+ 440:		PUSH_INT             2
+ 442:		PUSH_FLOAT             0.500000
+ 444:		CALL			f2  3  3
+ 448:		ASSIGN			1
+ 450:		PUSH_VAR             1
+ 452:		PRINT
+ 453:		PUSH_INT             2
+ 455:		PUSH_INT             1
+ 457:		CALL			TestAdd  2  1
+ 461:		PUSH_INT             8
+ 463:		PUSH_INT             4
+ 465:		CALL			TestAdd  2  1
+ 469:		PUSH_INT             0
+ 471:		PUSH_FLOAT             0.000000
+ 473:		CALL			TestAdd  2  1
+ 477:		PUSH_INT             0
+ 479:		PUSH_FLOAT             2.000000
+ 481:		SUB
+ 482:		PUSH_INT             0
+ 484:		PUSH_INT             1
+ 486:		SUB
+ 487:		CALL			TestAdd  2  1
+ 491:		PUSH_INT             0
+ 493:		PUSH_INT             3
+ 495:		SUB
+ 496:		PUSH_INT             3
+ 498:		CALL			TestAdd  2  1
+ 502:		PUSH_STRING             Done!
+ 504:		PRINT
+ 505:		PUSH_STRING             
+ 507:		PRINT
+ 508:		PUSH_INT             0
+ 510:		RETURN
+ 511:		CALL			__file1  0  1
+ 515:		BRA             165
+ 517:		PUSH_STRING             
+ 519:		PRINT
+ 520:		PUSH_STRING             --------------------------
+ 522:		PRINT
+ 523:		PUSH_STRING             \nRunning types.ant...
+ 525:		PRINT
+ 526:		PUSH_INT             2147483647
+ 528:		ASSIGN			1
+ 530:		PUSH_INT             0
+ 532:		PUSH_INT             2147483647
+ 534:		SUB
+ 535:		ASSIGN			2
+ 537:		PUSH_INT             0
+ 539:		ASSIGN			3
+ 541:		PUSH_INT             2147483647
+ 543:		ASSIGN			4
+ 545:		PUSH_STRING             INT_MIN, INT_MAX: 
+ 547:		PUSH_VAR             2
+ 549:		PUSH_STRING             , 
+ 551:		PUSH_VAR             1
+ 553:		ADD
+ 554:		ADD
+ 555:		ADD
+ 556:		PRINT
+ 557:		PUSH_STRING             UINT_MIN, UINT_MAX: 
+ 559:		PUSH_VAR             3
+ 561:		PUSH_STRING             , 
+ 563:		PUSH_VAR             4
+ 565:		ADD
+ 566:		ADD
+ 567:		ADD
+ 568:		PRINT
+ 569:		PUSH_INT             25
+ 571:		ASSIGN			5
+ 573:		PUSH_INT             0
+ 575:		PUSH_INT             4
+ 577:		SUB
+ 578:		ASSIGN			6
+ 580:		PUSH_VAR             1
+ 582:		ASSIGN			7
+ 584:		PUSH_VAR             2
+ 586:		ASSIGN			8
+ 588:		PUSH_VAR             3
+ 590:		ASSIGN			9
+ 592:		PUSH_VAR             4
+ 594:		ASSIGN			10
+ 596:		PUSH_INT             0
+ 598:		PUSH_FLOAT             3.000000
+ 600:		SUB
+ 601:		ASSIGN			11
+ 603:		PUSH_FLOAT             250.399994
+ 605:		ASSIGN			12
+ 607:		PUSH_INT             3
+ 609:		ASSIGN			13
+ 611:		PUSH_STRING             a
+ 613:		ASSIGN			14
+ 615:		PUSH_FLOAT             0.000000
+ 617:		ASSIGN			15
+ 619:		PUSH_FLOAT             0.100000
+ 621:		ASSIGN			16
+ 623:		PUSH_FLOAT             0.500000
+ 625:		ASSIGN			17
+ 627:		PUSH_FLOAT             0.100000
+ 629:		ASSIGN			18
+ 631:		PUSH_VAR             10
+ 633:		PUSH_VAR             9
+ 635:		PUSH_VAR             8
+ 637:		PUSH_VAR             7
+ 639:		PUSH_VAR             6
+ 641:		PUSH_VAR             5
+ 643:		PUSH_ARRAY             6
+ 645:		ASSIGN			19
+ 647:		PUSH_VAR             18
+ 649:		PUSH_VAR             17
+ 651:		PUSH_VAR             16
+ 653:		PUSH_VAR             15
+ 655:		PUSH_VAR             14
+ 657:		PUSH_VAR             13
+ 659:		PUSH_VAR             12
+ 661:		PUSH_VAR             11
+ 663:		PUSH_ARRAY             8
+ 665:		ASSIGN			20
+ 667:		PUSH_STRING             vi: 
+ 669:		PUSH_VAR             19
+ 671:		ADD
+ 672:		PRINT
+ 673:		PUSH_STRING             vf: 
+ 675:		PUSH_VAR             20
+ 677:		ADD
+ 678:		PRINT
+ 679:		PUSH_INT             0
+ 681:		RETURN
+ 682:		CALL			__file2  0  20
+ 686:		<INVALID_OP>: 0
+DONE
+   0:		STACK SIZE =  0: 		CALL 4 0 0
+   4:		STACK SIZE =  2: 		BRA 53
+  59:		STACK SIZE =  2: 		CALL 6 0 1
+   6:		STACK SIZE =  5: 		PUSH_STRING 
+   8:		STACK SIZE =  6: 		PRINT
+   9:		STACK SIZE =  5: 		PUSH_STRING --------------------------
+  11:		STACK SIZE =  6: 		PRINT
+  12:		STACK SIZE =  5: 		PUSH_STRING Running factorial.ant...
+  14:		STACK SIZE =  6: 		PRINT
+  15:		STACK SIZE =  5: 		BRA 25
+  42:		STACK SIZE =  5: 		PUSH_INT 7
+  44:		STACK SIZE =  6: 		CALL 17 1 0
+  17:		STACK SIZE =  8: 		PUSH_VAR -2
+  19:		STACK SIZE =  9: 		PUSH_INT 0
+  21:		STACK SIZE = 10: 		LOGICALOP ==
+  22:		STACK SIZE =  9: 		BRZ 5
+  29:		STACK SIZE =  8: 		PUSH_VAR -2
+  31:		STACK SIZE =  9: 		PUSH_VAR -2
+  33:		STACK SIZE = 10: 		PUSH_INT 1
+  35:		STACK SIZE = 11: 		SUB 
+  36:		STACK SIZE = 10: 		CALL 17 1 0
+  17:		STACK SIZE = 12: 		PUSH_VAR -2
+  19:		STACK SIZE = 13: 		PUSH_INT 0
+  21:		STACK SIZE = 14: 		LOGICALOP ==
+  22:		STACK SIZE = 13: 		BRZ 5
+  29:		STACK SIZE = 12: 		PUSH_VAR -2
+  31:		STACK SIZE = 13: 		PUSH_VAR -2
+  33:		STACK SIZE = 14: 		PUSH_INT 1
+  35:		STACK SIZE = 15: 		SUB 
+  36:		STACK SIZE = 14: 		CALL 17 1 0
+  17:		STACK SIZE = 16: 		PUSH_VAR -2
+  19:		STACK SIZE = 17: 		PUSH_INT 0
+  21:		STACK SIZE = 18: 		LOGICALOP ==
+  22:		STACK SIZE = 17: 		BRZ 5
+  29:		STACK SIZE = 16: 		PUSH_VAR -2
+  31:		STACK SIZE = 17: 		PUSH_VAR -2
+  33:		STACK SIZE = 18: 		PUSH_INT 1
+  35:		STACK SIZE = 19: 		SUB 
+  36:		STACK SIZE = 18: 		CALL 17 1 0
+  17:		STACK SIZE = 20: 		PUSH_VAR -2
+  19:		STACK SIZE = 21: 		PUSH_INT 0
+  21:		STACK SIZE = 22: 		LOGICALOP ==
+  22:		STACK SIZE = 21: 		BRZ 5
+  29:		STACK SIZE = 20: 		PUSH_VAR -2
+  31:		STACK SIZE = 21: 		PUSH_VAR -2
+  33:		STACK SIZE = 22: 		PUSH_INT 1
+  35:		STACK SIZE = 23: 		SUB 
+  36:		STACK SIZE = 22: 		CALL 17 1 0
+  17:		STACK SIZE = 24: 		PUSH_VAR -2
+  19:		STACK SIZE = 25: 		PUSH_INT 0
+  21:		STACK SIZE = 26: 		LOGICALOP ==
+  22:		STACK SIZE = 25: 		BRZ 5
+  29:		STACK SIZE = 24: 		PUSH_VAR -2
+  31:		STACK SIZE = 25: 		PUSH_VAR -2
+  33:		STACK SIZE = 26: 		PUSH_INT 1
+  35:		STACK SIZE = 27: 		SUB 
+  36:		STACK SIZE = 26: 		CALL 17 1 0
+  17:		STACK SIZE = 28: 		PUSH_VAR -2
+  19:		STACK SIZE = 29: 		PUSH_INT 0
+  21:		STACK SIZE = 30: 		LOGICALOP ==
+  22:		STACK SIZE = 29: 		BRZ 5
+  29:		STACK SIZE = 28: 		PUSH_VAR -2
+  31:		STACK SIZE = 29: 		PUSH_VAR -2
+  33:		STACK SIZE = 30: 		PUSH_INT 1
+  35:		STACK SIZE = 31: 		SUB 
+  36:		STACK SIZE = 30: 		CALL 17 1 0
+  17:		STACK SIZE = 32: 		PUSH_VAR -2
+  19:		STACK SIZE = 33: 		PUSH_INT 0
+  21:		STACK SIZE = 34: 		LOGICALOP ==
+  22:		STACK SIZE = 33: 		BRZ 5
+  29:		STACK SIZE = 32: 		PUSH_VAR -2
+  31:		STACK SIZE = 33: 		PUSH_VAR -2
+  33:		STACK SIZE = 34: 		PUSH_INT 1
+  35:		STACK SIZE = 35: 		SUB 
+  36:		STACK SIZE = 34: 		CALL 17 1 0
+  17:		STACK SIZE = 36: 		PUSH_VAR -2
+  19:		STACK SIZE = 37: 		PUSH_INT 0
+  21:		STACK SIZE = 38: 		LOGICALOP ==
+  22:		STACK SIZE = 37: 		BRZ 5
+  24:		STACK SIZE = 36: 		PUSH_INT 1
+  26:		STACK SIZE = 37: 		RETURN: 
+  40:		STACK SIZE = 34: 		MUL 
+  41:		STACK SIZE = 33: 		RETURN: 
+  40:		STACK SIZE = 30: 		MUL 
+  41:		STACK SIZE = 29: 		RETURN: 
+  40:		STACK SIZE = 26: 		MUL 
+  41:		STACK SIZE = 25: 		RETURN: 
+  40:		STACK SIZE = 22: 		MUL 
+  41:		STACK SIZE = 21: 		RETURN: 
+  40:		STACK SIZE = 18: 		MUL 
+  41:		STACK SIZE = 17: 		RETURN: 
+  40:		STACK SIZE = 14: 		MUL 
+  41:		STACK SIZE = 13: 		RETURN: 
+  40:		STACK SIZE = 10: 		MUL 
+  41:		STACK SIZE =  9: 		RETURN: 
+  48:		STACK SIZE =  6: 		ASSIGN 1
+  50:		STACK SIZE =  5: 		PUSH_STRING factorial(7) = 
+  52:		STACK SIZE =  6: 		PUSH_VAR 1
+  54:		STACK SIZE =  7: 		ADD 
+  55:		STACK SIZE =  6: 		PRINT
+  56:		STACK SIZE =  5: 		PUSH_INT 0
+  58:		STACK SIZE =  6: 		RETURN: 
+  63:		STACK SIZE =  3: 		BRA 446
+ 511:		STACK SIZE =  3: 		CALL 65 0 1
+  65:		STACK SIZE =  6: 		PUSH_STRING 
+  67:		STACK SIZE =  7: 		PRINT
+  68:		STACK SIZE =  6: 		PUSH_STRING --------------------------
+  70:		STACK SIZE =  7: 		PRINT
+  71:		STACK SIZE =  6: 		PUSH_STRING Running test.ant...
+  73:		STACK SIZE =  7: 		PRINT
+  74:		STACK SIZE =  6: 		BRA 6
+  82:		STACK SIZE =  6: 		BRA 320
+ 404:		STACK SIZE =  6: 		BRA 28
+ 434:		STACK SIZE =  6: 		CALL 76 0 0
+  76:		STACK SIZE =  8: 		PUSH_STRING f1() outer
+  78:		STACK SIZE =  9: 		PRINT
+  79:		STACK SIZE =  8: 		PUSH_INT 0
+  81:		STACK SIZE =  9: 		RETURN: 
+ 438:		STACK SIZE =  7: 		PUSH_FLOAT 3.000000
+ 440:		STACK SIZE =  8: 		PUSH_INT 2
+ 442:		STACK SIZE =  9: 		PUSH_FLOAT 0.500000
+ 444:		STACK SIZE = 10: 		CALL 84 3 3
+  84:		STACK SIZE = 15: 		BRA 6
+  92:		STACK SIZE = 15: 		CALL 86 0 0
+  86:		STACK SIZE = 17: 		PUSH_STRING f1() inner
+  88:		STACK SIZE = 18: 		PRINT
+  89:		STACK SIZE = 17: 		PUSH_INT 0
+  91:		STACK SIZE = 18: 		RETURN: 
+  96:		STACK SIZE = 16: 		BRA 6
+ 104:		STACK SIZE = 16: 		CALL 98 0 0
+  98:		STACK SIZE = 18: 		PUSH_STRING f3()
+ 100:		STACK SIZE = 19: 		PRINT
+ 101:		STACK SIZE = 18: 		PUSH_INT 0
+ 103:		STACK SIZE = 19: 		RETURN: 
+ 108:		STACK SIZE = 17: 		PUSH_INT 5
+ 110:		STACK SIZE = 18: 		ASSIGN 1
+ 112:		STACK SIZE = 17: 		PUSH_INT 6
+ 114:		STACK SIZE = 18: 		ASSIGN 2
+ 116:		STACK SIZE = 17: 		PUSH_VAR 1
+ 118:		STACK SIZE = 18: 		PUSH_STRING  < 5: 
+ 120:		STACK SIZE = 19: 		PUSH_VAR 1
+ 122:		STACK SIZE = 20: 		PUSH_INT 5
+ 124:		STACK SIZE = 21: 		LOGICALOP <
+ 125:		STACK SIZE = 20: 		ADD 
+ 126:		STACK SIZE = 19: 		ADD 
+ 127:		STACK SIZE = 18: 		PRINT
+ 128:		STACK SIZE = 17: 		PUSH_VAR 1
+ 130:		STACK SIZE = 18: 		PUSH_STRING  <= 5: 
+ 132:		STACK SIZE = 19: 		PUSH_VAR 1
+ 134:		STACK SIZE = 20: 		PUSH_INT 5
+ 136:		STACK SIZE = 21: 		LOGICALOP <=
+ 137:		STACK SIZE = 20: 		ADD 
+ 138:		STACK SIZE = 19: 		ADD 
+ 139:		STACK SIZE = 18: 		PRINT
+ 140:		STACK SIZE = 17: 		PUSH_VAR 1
+ 142:		STACK SIZE = 18: 		PUSH_STRING  > 5: 
+ 144:		STACK SIZE = 19: 		PUSH_VAR 1
+ 146:		STACK SIZE = 20: 		PUSH_INT 5
+ 148:		STACK SIZE = 21: 		LOGICALOP >
+ 149:		STACK SIZE = 20: 		ADD 
+ 150:		STACK SIZE = 19: 		ADD 
+ 151:		STACK SIZE = 18: 		PRINT
+ 152:		STACK SIZE = 17: 		PUSH_VAR 1
+ 154:		STACK SIZE = 18: 		PUSH_STRING  >= 5: 
+ 156:		STACK SIZE = 19: 		PUSH_VAR 1
+ 158:		STACK SIZE = 20: 		PUSH_INT 5
+ 160:		STACK SIZE = 21: 		LOGICALOP >=
+ 161:		STACK SIZE = 20: 		ADD 
+ 162:		STACK SIZE = 19: 		ADD 
+ 163:		STACK SIZE = 18: 		PRINT
+ 164:		STACK SIZE = 17: 		PUSH_VAR 1
+ 166:		STACK SIZE = 18: 		PUSH_STRING  == 5: 
+ 168:		STACK SIZE = 19: 		PUSH_VAR 1
+ 170:		STACK SIZE = 20: 		PUSH_INT 5
+ 172:		STACK SIZE = 21: 		LOGICALOP ==
+ 173:		STACK SIZE = 20: 		ADD 
+ 174:		STACK SIZE = 19: 		ADD 
+ 175:		STACK SIZE = 18: 		PRINT
+ 176:		STACK SIZE = 17: 		PUSH_VAR 1
+ 178:		STACK SIZE = 18: 		PUSH_STRING  != 5: 
+ 180:		STACK SIZE = 19: 		PUSH_VAR 1
+ 182:		STACK SIZE = 20: 		PUSH_INT 5
+ 184:		STACK SIZE = 21: 		LOGICALOP !=
+ 185:		STACK SIZE = 20: 		ADD 
+ 186:		STACK SIZE = 19: 		ADD 
+ 187:		STACK SIZE = 18: 		PRINT
+ 188:		STACK SIZE = 17: 		PUSH_VAR 1
+ 190:		STACK SIZE = 18: 		PUSH_INT 5
+ 192:		STACK SIZE = 19: 		LOGICALOP <
+ 193:		STACK SIZE = 18: 		BRZ 8
+ 203:		STACK SIZE = 17: 		PUSH_VAR 1
+ 205:		STACK SIZE = 18: 		PUSH_INT 5
+ 207:		STACK SIZE = 19: 		LOGICALOP >
+ 208:		STACK SIZE = 18: 		BRZ 8
+ 218:		STACK SIZE = 17: 		PUSH_VAR 1
+ 220:		STACK SIZE = 18: 		PUSH_VAR 2
+ 222:		STACK SIZE = 19: 		LOGICALOP <
+ 223:		STACK SIZE = 18: 		BRZ 5
+ 225:		STACK SIZE = 17: 		PUSH_STRING i < j
+ 227:		STACK SIZE = 18: 		PRINT
+ 228:		STACK SIZE = 17: 		BRA 0
+ 230:		STACK SIZE = 17: 		PUSH_VAR 1
+ 232:		STACK SIZE = 18: 		PUSH_STRING  == 5
+ 234:		STACK SIZE = 19: 		ADD 
+ 235:		STACK SIZE = 18: 		PRINT
+ 236:		STACK SIZE = 17: 		PUSH_INT 0
+ 238:		STACK SIZE = 18: 		ASSIGN 1
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 247:		STACK SIZE = 17: 		PUSH_STRING while 
+ 249:		STACK SIZE = 18: 		PUSH_VAR 1
+ 251:		STACK SIZE = 19: 		PUSH_STRING  of 5
+ 253:		STACK SIZE = 20: 		ADD 
+ 254:		STACK SIZE = 19: 		ADD 
+ 255:		STACK SIZE = 18: 		PRINT
+ 256:		STACK SIZE = 17: 		PUSH_VAR 1
+ 258:		STACK SIZE = 18: 		PUSH_INT 1
+ 260:		STACK SIZE = 19: 		ADD 
+ 261:		STACK SIZE = 18: 		ASSIGN 1
+ 263:		STACK SIZE = 17: 		BRA -25
+ 240:		STACK SIZE = 17: 		PUSH_VAR 1
+ 242:		STACK SIZE = 18: 		PUSH_INT 5
+ 244:		STACK SIZE = 19: 		LOGICALOP <=
+ 245:		STACK SIZE = 18: 		BRZ 18
+ 265:		STACK SIZE = 17: 		PUSH_VAR -4
+ 267:		STACK SIZE = 18: 		PUSH_FLOAT 2.000000
+ 269:		STACK SIZE = 19: 		PUSH_INT 1
+ 271:		STACK SIZE = 20: 		PUSH_ARRAY 
+ 273:		STACK SIZE = 21: 		ASSIGN 3
+ 275:		STACK SIZE = 20: 		PUSH_INT 0
+ 277:		STACK SIZE = 21: 		ASSIGN 1
+ 279:		STACK SIZE = 20: 		PUSH_VAR 1
+ 281:		STACK SIZE = 21: 		PUSH_INT 3
+ 283:		STACK SIZE = 22: 		LOGICALOP <
+ 284:		STACK SIZE = 21: 		BRZ 24
+ 286:		STACK SIZE = 20: 		PUSH_STRING array[
+ 288:		STACK SIZE = 21: 		PUSH_VAR 1
+ 290:		STACK SIZE = 22: 		PUSH_STRING ] = 
+ 292:		STACK SIZE = 23: 		PUSH_VAR 3
+ 294:		STACK SIZE = 24: 		PUSH_VAR 1
+ 296:		STACK SIZE = 25: 		GET 
+ 297:		STACK SIZE = 24: 		ADD 
+ 298:		STACK SIZE = 23: 		ADD 
+ 299:		STACK SIZE = 22: 		ADD 
+ 300:		STACK SIZE = 21: 		PRINT
+ 301:		STACK SIZE = 20: 		PUSH_VAR 1
+ 303:		STACK SIZE = 21: 		PUSH_INT 1
+ 305:		STACK SIZE = 22: 		ADD 
+ 306:		STACK SIZE = 21: 		ASSIGN 1
+ 308:		STACK SIZE = 20: 		BRA -31
+ 279:		STACK SIZE = 20: 		PUSH_VAR 1
+ 281:		STACK SIZE = 21: 		PUSH_INT 3
+ 283:		STACK SIZE = 22: 		LOGICALOP <
+ 284:		STACK SIZE = 21: 		BRZ 24
+ 286:		STACK SIZE = 20: 		PUSH_STRING array[
+ 288:		STACK SIZE = 21: 		PUSH_VAR 1
+ 290:		STACK SIZE = 22: 		PUSH_STRING ] = 
+ 292:		STACK SIZE = 23: 		PUSH_VAR 3
+ 294:		STACK SIZE = 24: 		PUSH_VAR 1
+ 296:		STACK SIZE = 25: 		GET 
+ 297:		STACK SIZE = 24: 		ADD 
+ 298:		STACK SIZE = 23: 		ADD 
+ 299:		STACK SIZE = 22: 		ADD 
+ 300:		STACK SIZE = 21: 		PRINT
+ 301:		STACK SIZE = 20: 		PUSH_VAR 1
+ 303:		STACK SIZE = 21: 		PUSH_INT 1
+ 305:		STACK SIZE = 22: 		ADD 
+ 306:		STACK SIZE = 21: 		ASSIGN 1
+ 308:		STACK SIZE = 20: 		BRA -31
+ 279:		STACK SIZE = 20: 		PUSH_VAR 1
+ 281:		STACK SIZE = 21: 		PUSH_INT 3
+ 283:		STACK SIZE = 22: 		LOGICALOP <
+ 284:		STACK SIZE = 21: 		BRZ 24
+ 286:		STACK SIZE = 20: 		PUSH_STRING array[
+ 288:		STACK SIZE = 21: 		PUSH_VAR 1
+ 290:		STACK SIZE = 22: 		PUSH_STRING ] = 
+ 292:		STACK SIZE = 23: 		PUSH_VAR 3
+ 294:		STACK SIZE = 24: 		PUSH_VAR 1
+ 296:		STACK SIZE = 25: 		GET 
+ 297:		STACK SIZE = 24: 		ADD 
+ 298:		STACK SIZE = 23: 		ADD 
+ 299:		STACK SIZE = 22: 		ADD 
+ 300:		STACK SIZE = 21: 		PRINT
+ 301:		STACK SIZE = 20: 		PUSH_VAR 1
+ 303:		STACK SIZE = 21: 		PUSH_INT 1
+ 305:		STACK SIZE = 22: 		ADD 
+ 306:		STACK SIZE = 21: 		ASSIGN 1
+ 308:		STACK SIZE = 20: 		BRA -31
+ 279:		STACK SIZE = 20: 		PUSH_VAR 1
+ 281:		STACK SIZE = 21: 		PUSH_INT 3
+ 283:		STACK SIZE = 22: 		LOGICALOP <
+ 284:		STACK SIZE = 21: 		BRZ 24
+ 310:		STACK SIZE = 20: 		PUSH_VAR 3
+ 312:		STACK SIZE = 21: 		PUSH_INT 0
+ 314:		STACK SIZE = 22: 		PUSH_INT 1234
+ 316:		STACK SIZE = 23: 		SET 
+ 317:		STACK SIZE = 21: 		PUSH_VAR 3
+ 319:		STACK SIZE = 22: 		PUSH_INT 0
+ 321:		STACK SIZE = 23: 		GET 
+ 322:		STACK SIZE = 22: 		PRINT
+ 323:		STACK SIZE = 21: 		PUSH_STRING a: 
+ 325:		STACK SIZE = 22: 		PUSH_VAR -2
+ 327:		STACK SIZE = 23: 		ADD 
+ 328:		STACK SIZE = 22: 		PRINT
+ 329:		STACK SIZE = 21: 		PUSH_STRING b: 
+ 331:		STACK SIZE = 22: 		PUSH_VAR -3
+ 333:		STACK SIZE = 23: 		ADD 
+ 334:		STACK SIZE = 22: 		PRINT
+ 335:		STACK SIZE = 21: 		PUSH_STRING c: 
+ 337:		STACK SIZE = 22: 		PUSH_VAR -4
+ 339:		STACK SIZE = 23: 		ADD 
+ 340:		STACK SIZE = 22: 		PRINT
+ 341:		STACK SIZE = 21: 		PUSH_STRING 'a' + 'b': 
+ 343:		STACK SIZE = 22: 		PUSH_STRING a
+ 345:		STACK SIZE = 23: 		PUSH_STRING b
+ 347:		STACK SIZE = 24: 		ADD 
+ 348:		STACK SIZE = 23: 		ADD 
+ 349:		STACK SIZE = 22: 		PRINT
+ 350:		STACK SIZE = 21: 		PUSH_STRING 5.0 + a: 
+ 352:		STACK SIZE = 22: 		PUSH_FLOAT 5.000000
+ 354:		STACK SIZE = 23: 		PUSH_VAR -2
+ 356:		STACK SIZE = 24: 		ADD 
+ 357:		STACK SIZE = 23: 		ADD 
+ 358:		STACK SIZE = 22: 		PRINT
+ 359:		STACK SIZE = 21: 		PUSH_STRING 5.0 - a: 
+ 361:		STACK SIZE = 22: 		PUSH_FLOAT 5.000000
+ 363:		STACK SIZE = 23: 		PUSH_VAR -2
+ 365:		STACK SIZE = 24: 		SUB 
+ 366:		STACK SIZE = 23: 		ADD 
+ 367:		STACK SIZE = 22: 		PRINT
+ 368:		STACK SIZE = 21: 		PUSH_STRING 5.0 * b: 
+ 370:		STACK SIZE = 22: 		PUSH_FLOAT 5.000000
+ 372:		STACK SIZE = 23: 		PUSH_VAR -3
+ 374:		STACK SIZE = 24: 		MUL 
+ 375:		STACK SIZE = 23: 		ADD 
+ 376:		STACK SIZE = 22: 		PRINT
+ 377:		STACK SIZE = 21: 		PUSH_STRING 20.0 / b: 
+ 379:		STACK SIZE = 22: 		PUSH_FLOAT 20.000000
+ 381:		STACK SIZE = 23: 		PUSH_VAR -3
+ 383:		STACK SIZE = 24: 		DIV 
+ 384:		STACK SIZE = 23: 		ADD 
+ 385:		STACK SIZE = 22: 		PRINT
+ 386:		STACK SIZE = 21: 		PUSH_STRING 10 mod 4: 
+ 388:		STACK SIZE = 22: 		PUSH_INT 10
+ 390:		STACK SIZE = 23: 		PUSH_INT 4
+ 392:		STACK SIZE = 24: 		MOD 
+ 393:		STACK SIZE = 23: 		ADD 
+ 394:		STACK SIZE = 22: 		PRINT
+ 395:		STACK SIZE = 21: 		PUSH_VAR -2
+ 397:		STACK SIZE = 22: 		PUSH_VAR -3
+ 399:		STACK SIZE = 23: 		PUSH_VAR -4
+ 401:		STACK SIZE = 24: 		MUL 
+ 402:		STACK SIZE = 23: 		ADD 
+ 403:		STACK SIZE = 22: 		RETURN: 
+ 448:		STACK SIZE =  8: 		ASSIGN 1
+ 450:		STACK SIZE =  7: 		PUSH_VAR 1
+ 452:		STACK SIZE =  8: 		PRINT
+ 453:		STACK SIZE =  7: 		PUSH_INT 2
+ 455:		STACK SIZE =  8: 		PUSH_INT 1
+ 457:		STACK SIZE =  9: 		CALL 406 2 1
+ 406:		STACK SIZE = 12: 		PUSH_VAR -2
+ 408:		STACK SIZE = 13: 		PUSH_VAR -3
+ 410:		STACK SIZE = 14: 		ADD 
+ 411:		STACK SIZE = 13: 		ASSIGN 1
+ 413:		STACK SIZE = 12: 		PUSH_STRING add(
+ 415:		STACK SIZE = 13: 		PUSH_VAR -2
+ 417:		STACK SIZE = 14: 		PUSH_STRING , 
+ 419:		STACK SIZE = 15: 		PUSH_VAR -3
+ 421:		STACK SIZE = 16: 		PUSH_STRING ): 
+ 423:		STACK SIZE = 17: 		PUSH_VAR 1
+ 425:		STACK SIZE = 18: 		ADD 
+ 426:		STACK SIZE = 17: 		ADD 
+ 427:		STACK SIZE = 16: 		ADD 
+ 428:		STACK SIZE = 15: 		ADD 
+ 429:		STACK SIZE = 14: 		ADD 
+ 430:		STACK SIZE = 13: 		PRINT
+ 431:		STACK SIZE = 12: 		PUSH_VAR 1
+ 433:		STACK SIZE = 13: 		RETURN: 
+ 461:		STACK SIZE =  8: 		PUSH_INT 8
+ 463:		STACK SIZE =  9: 		PUSH_INT 4
+ 465:		STACK SIZE = 10: 		CALL 406 2 1
+ 406:		STACK SIZE = 13: 		PUSH_VAR -2
+ 408:		STACK SIZE = 14: 		PUSH_VAR -3
+ 410:		STACK SIZE = 15: 		ADD 
+ 411:		STACK SIZE = 14: 		ASSIGN 1
+ 413:		STACK SIZE = 13: 		PUSH_STRING add(
+ 415:		STACK SIZE = 14: 		PUSH_VAR -2
+ 417:		STACK SIZE = 15: 		PUSH_STRING , 
+ 419:		STACK SIZE = 16: 		PUSH_VAR -3
+ 421:		STACK SIZE = 17: 		PUSH_STRING ): 
+ 423:		STACK SIZE = 18: 		PUSH_VAR 1
+ 425:		STACK SIZE = 19: 		ADD 
+ 426:		STACK SIZE = 18: 		ADD 
+ 427:		STACK SIZE = 17: 		ADD 
+ 428:		STACK SIZE = 16: 		ADD 
+ 429:		STACK SIZE = 15: 		ADD 
+ 430:		STACK SIZE = 14: 		PRINT
+ 431:		STACK SIZE = 13: 		PUSH_VAR 1
+ 433:		STACK SIZE = 14: 		RETURN: 
+ 469:		STACK SIZE =  9: 		PUSH_INT 0
+ 471:		STACK SIZE = 10: 		PUSH_FLOAT 0.000000
+ 473:		STACK SIZE = 11: 		CALL 406 2 1
+ 406:		STACK SIZE = 14: 		PUSH_VAR -2
+ 408:		STACK SIZE = 15: 		PUSH_VAR -3
+ 410:		STACK SIZE = 16: 		ADD 
+ 411:		STACK SIZE = 15: 		ASSIGN 1
+ 413:		STACK SIZE = 14: 		PUSH_STRING add(
+ 415:		STACK SIZE = 15: 		PUSH_VAR -2
+ 417:		STACK SIZE = 16: 		PUSH_STRING , 
+ 419:		STACK SIZE = 17: 		PUSH_VAR -3
+ 421:		STACK SIZE = 18: 		PUSH_STRING ): 
+ 423:		STACK SIZE = 19: 		PUSH_VAR 1
+ 425:		STACK SIZE = 20: 		ADD 
+ 426:		STACK SIZE = 19: 		ADD 
+ 427:		STACK SIZE = 18: 		ADD 
+ 428:		STACK SIZE = 17: 		ADD 
+ 429:		STACK SIZE = 16: 		ADD 
+ 430:		STACK SIZE = 15: 		PRINT
+ 431:		STACK SIZE = 14: 		PUSH_VAR 1
+ 433:		STACK SIZE = 15: 		RETURN: 
+ 477:		STACK SIZE = 10: 		PUSH_INT 0
+ 479:		STACK SIZE = 11: 		PUSH_FLOAT 2.000000
+ 481:		STACK SIZE = 12: 		SUB 
+ 482:		STACK SIZE = 11: 		PUSH_INT 0
+ 484:		STACK SIZE = 12: 		PUSH_INT 1
+ 486:		STACK SIZE = 13: 		SUB 
+ 487:		STACK SIZE = 12: 		CALL 406 2 1
+ 406:		STACK SIZE = 15: 		PUSH_VAR -2
+ 408:		STACK SIZE = 16: 		PUSH_VAR -3
+ 410:		STACK SIZE = 17: 		ADD 
+ 411:		STACK SIZE = 16: 		ASSIGN 1
+ 413:		STACK SIZE = 15: 		PUSH_STRING add(
+ 415:		STACK SIZE = 16: 		PUSH_VAR -2
+ 417:		STACK SIZE = 17: 		PUSH_STRING , 
+ 419:		STACK SIZE = 18: 		PUSH_VAR -3
+ 421:		STACK SIZE = 19: 		PUSH_STRING ): 
+ 423:		STACK SIZE = 20: 		PUSH_VAR 1
+ 425:		STACK SIZE = 21: 		ADD 
+ 426:		STACK SIZE = 20: 		ADD 
+ 427:		STACK SIZE = 19: 		ADD 
+ 428:		STACK SIZE = 18: 		ADD 
+ 429:		STACK SIZE = 17: 		ADD 
+ 430:		STACK SIZE = 16: 		PRINT
+ 431:		STACK SIZE = 15: 		PUSH_VAR 1
+ 433:		STACK SIZE = 16: 		RETURN: 
+ 491:		STACK SIZE = 11: 		PUSH_INT 0
+ 493:		STACK SIZE = 12: 		PUSH_INT 3
+ 495:		STACK SIZE = 13: 		SUB 
+ 496:		STACK SIZE = 12: 		PUSH_INT 3
+ 498:		STACK SIZE = 13: 		CALL 406 2 1
+ 406:		STACK SIZE = 16: 		PUSH_VAR -2
+ 408:		STACK SIZE = 17: 		PUSH_VAR -3
+ 410:		STACK SIZE = 18: 		ADD 
+ 411:		STACK SIZE = 17: 		ASSIGN 1
+ 413:		STACK SIZE = 16: 		PUSH_STRING add(
+ 415:		STACK SIZE = 17: 		PUSH_VAR -2
+ 417:		STACK SIZE = 18: 		PUSH_STRING , 
+ 419:		STACK SIZE = 19: 		PUSH_VAR -3
+ 421:		STACK SIZE = 20: 		PUSH_STRING ): 
+ 423:		STACK SIZE = 21: 		PUSH_VAR 1
+ 425:		STACK SIZE = 22: 		ADD 
+ 426:		STACK SIZE = 21: 		ADD 
+ 427:		STACK SIZE = 20: 		ADD 
+ 428:		STACK SIZE = 19: 		ADD 
+ 429:		STACK SIZE = 18: 		ADD 
+ 430:		STACK SIZE = 17: 		PRINT
+ 431:		STACK SIZE = 16: 		PUSH_VAR 1
+ 433:		STACK SIZE = 17: 		RETURN: 
+ 502:		STACK SIZE = 12: 		PUSH_STRING Done!
+ 504:		STACK SIZE = 13: 		PRINT
+ 505:		STACK SIZE = 12: 		PUSH_STRING 
+ 507:		STACK SIZE = 13: 		PRINT
+ 508:		STACK SIZE = 12: 		PUSH_INT 0
+ 510:		STACK SIZE = 13: 		RETURN: 
+ 515:		STACK SIZE =  4: 		BRA 165
+ 682:		STACK SIZE =  4: 		CALL 517 0 20
+ 517:		STACK SIZE = 26: 		PUSH_STRING 
+ 519:		STACK SIZE = 27: 		PRINT
+ 520:		STACK SIZE = 26: 		PUSH_STRING --------------------------
+ 522:		STACK SIZE = 27: 		PRINT
+ 523:		STACK SIZE = 26: 		PUSH_STRING \nRunning types.ant...
+ 525:		STACK SIZE = 27: 		PRINT
+ 526:		STACK SIZE = 26: 		PUSH_INT 2147483647
+ 528:		STACK SIZE = 27: 		ASSIGN 1
+ 530:		STACK SIZE = 26: 		PUSH_INT 0
+ 532:		STACK SIZE = 27: 		PUSH_INT 2147483647
+ 534:		STACK SIZE = 28: 		SUB 
+ 535:		STACK SIZE = 27: 		ASSIGN 2
+ 537:		STACK SIZE = 26: 		PUSH_INT 0
+ 539:		STACK SIZE = 27: 		ASSIGN 3
+ 541:		STACK SIZE = 26: 		PUSH_INT 2147483647
+ 543:		STACK SIZE = 27: 		ASSIGN 4
+ 545:		STACK SIZE = 26: 		PUSH_STRING INT_MIN, INT_MAX: 
+ 547:		STACK SIZE = 27: 		PUSH_VAR 2
+ 549:		STACK SIZE = 28: 		PUSH_STRING , 
+ 551:		STACK SIZE = 29: 		PUSH_VAR 1
+ 553:		STACK SIZE = 30: 		ADD 
+ 554:		STACK SIZE = 29: 		ADD 
+ 555:		STACK SIZE = 28: 		ADD 
+ 556:		STACK SIZE = 27: 		PRINT
+ 557:		STACK SIZE = 26: 		PUSH_STRING UINT_MIN, UINT_MAX: 
+ 559:		STACK SIZE = 27: 		PUSH_VAR 3
+ 561:		STACK SIZE = 28: 		PUSH_STRING , 
+ 563:		STACK SIZE = 29: 		PUSH_VAR 4
+ 565:		STACK SIZE = 30: 		ADD 
+ 566:		STACK SIZE = 29: 		ADD 
+ 567:		STACK SIZE = 28: 		ADD 
+ 568:		STACK SIZE = 27: 		PRINT
+ 569:		STACK SIZE = 26: 		PUSH_INT 25
+ 571:		STACK SIZE = 27: 		ASSIGN 5
+ 573:		STACK SIZE = 26: 		PUSH_INT 0
+ 575:		STACK SIZE = 27: 		PUSH_INT 4
+ 577:		STACK SIZE = 28: 		SUB 
+ 578:		STACK SIZE = 27: 		ASSIGN 6
+ 580:		STACK SIZE = 26: 		PUSH_VAR 1
+ 582:		STACK SIZE = 27: 		ASSIGN 7
+ 584:		STACK SIZE = 26: 		PUSH_VAR 2
+ 586:		STACK SIZE = 27: 		ASSIGN 8
+ 588:		STACK SIZE = 26: 		PUSH_VAR 3
+ 590:		STACK SIZE = 27: 		ASSIGN 9
+ 592:		STACK SIZE = 26: 		PUSH_VAR 4
+ 594:		STACK SIZE = 27: 		ASSIGN 10
+ 596:		STACK SIZE = 26: 		PUSH_INT 0
+ 598:		STACK SIZE = 27: 		PUSH_FLOAT 3.000000
+ 600:		STACK SIZE = 28: 		SUB 
+ 601:		STACK SIZE = 27: 		ASSIGN 11
+ 603:		STACK SIZE = 26: 		PUSH_FLOAT 250.399994
+ 605:		STACK SIZE = 27: 		ASSIGN 12
+ 607:		STACK SIZE = 26: 		PUSH_INT 3
+ 609:		STACK SIZE = 27: 		ASSIGN 13
+ 611:		STACK SIZE = 26: 		PUSH_STRING a
+ 613:		STACK SIZE = 27: 		ASSIGN 14
+ 615:		STACK SIZE = 26: 		PUSH_FLOAT 0.000000
+ 617:		STACK SIZE = 27: 		ASSIGN 15
+ 619:		STACK SIZE = 26: 		PUSH_FLOAT 0.100000
+ 621:		STACK SIZE = 27: 		ASSIGN 16
+ 623:		STACK SIZE = 26: 		PUSH_FLOAT 0.500000
+ 625:		STACK SIZE = 27: 		ASSIGN 17
+ 627:		STACK SIZE = 26: 		PUSH_FLOAT 0.100000
+ 629:		STACK SIZE = 27: 		ASSIGN 18
+ 631:		STACK SIZE = 26: 		PUSH_VAR 10
+ 633:		STACK SIZE = 27: 		PUSH_VAR 9
+ 635:		STACK SIZE = 28: 		PUSH_VAR 8
+ 637:		STACK SIZE = 29: 		PUSH_VAR 7
+ 639:		STACK SIZE = 30: 		PUSH_VAR 6
+ 641:		STACK SIZE = 31: 		PUSH_VAR 5
+ 643:		STACK SIZE = 32: 		PUSH_ARRAY 
+ 645:		STACK SIZE = 33: 		ASSIGN 19
+ 647:		STACK SIZE = 32: 		PUSH_VAR 18
+ 649:		STACK SIZE = 33: 		PUSH_VAR 17
+ 651:		STACK SIZE = 34: 		PUSH_VAR 16
+ 653:		STACK SIZE = 35: 		PUSH_VAR 15
+ 655:		STACK SIZE = 36: 		PUSH_VAR 14
+ 657:		STACK SIZE = 37: 		PUSH_VAR 13
+ 659:		STACK SIZE = 38: 		PUSH_VAR 12
+ 661:		STACK SIZE = 39: 		PUSH_VAR 11
+ 663:		STACK SIZE = 40: 		PUSH_ARRAY 
+ 665:		STACK SIZE = 41: 		ASSIGN 20
+ 667:		STACK SIZE = 40: 		PUSH_STRING vi: 
+ 669:		STACK SIZE = 41: 		PUSH_VAR 19
+ 671:		STACK SIZE = 42: 		ADD 
+ 672:		STACK SIZE = 41: 		PRINT
+ 673:		STACK SIZE = 40: 		PUSH_STRING vf: 
+ 675:		STACK SIZE = 41: 		PUSH_VAR 20
+ 677:		STACK SIZE = 42: 		ADD 
+ 678:		STACK SIZE = 41: 		PRINT
+ 679:		STACK SIZE = 40: 		PUSH_INT 0
+ 681:		STACK SIZE = 41: 		RETURN: 
+DONE
+
+
+
+Output:
+
+--------------------------
+Running factorial.ant...
+factorial(7) = 5040
+
+--------------------------
+Running test.ant...
+f1() outer
+f1() inner
+f3()
+5 < 5: 0
+5 <= 5: 1
+5 > 5: 0
+5 >= 5: 1
+5 == 5: 1
+5 != 5: 0
+i < j
+5 == 5
+while 0 of 5
+while 1 of 5
+while 2 of 5
+while 3 of 5
+while 4 of 5
+while 5 of 5
+array[0] = 1
+array[1] = 2.000000
+array[2] = 3.000000
+1
+a: 0.500000
+b: 2
+c: 3.000000
+'a' + 'b': ab
+5.0 + a: 5.500000
+5.0 - a: 4.500000
+5.0 * b: 10.000000
+20.0 / b: 10.000000
+10 mod 4: 2
+6.500000
+add(1, 2): 3
+add(4, 8): 12
+add(0.000000, 0): 0.000000
+add(-1, -2.000000): -3.000000
+add(3, -3): 0
+Done!
+
+
+--------------------------
+\nRunning types.ant...
+INT_MIN, INT_MAX: -2147483647, 2147483647
+UINT_MIN, UINT_MAX: 0, 2147483647
+vi: 
+{
+    25,
+    -4,
+    2147483647,
+    -2147483647,
+    0,
+    2147483647,
+}
+vf: 
+{
+    -3.000000,
+    250.399994,
+    3,
+    a,
+    0.000000,
+    0.100000,
+    0.500000,
+    0.100000,
+}
 
 --------------- Done ---------------

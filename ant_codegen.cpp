@@ -33,7 +33,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 	
 			case NODE_ID:
 			{
-				int offset = ctx.CurScope().GetLocal(n->GetString());
+				int offset = ctx.CurScope().GetLocal(n->AsString());
 				Emit(OP_PUSH_VAR);
 				Emit(offset);
 				break;
@@ -67,7 +67,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 		
 			case NODE_ASSIGN:
 			{
-				int offset = ctx.CurScope().GetLocal(node(0)->GetString());
+				int offset = ctx.CurScope().GetLocal(node(0)->AsString());
 				CodeGen(node(1));
 				Emit(OP_ASSIGN);
 				Emit(offset);
@@ -96,7 +96,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 		
 			case NODE_FUNC:
 			{
-				AntScope* scope = ctx.CurScope().AddFunction(node(0)->GetString());
+				AntScope* scope = ctx.CurScope().AddFunction(node(0)->AsString());
 				AntNode* params = node(1);
 				AntNode* locals = node(2);
 				AntNode* block = node(3);
@@ -104,13 +104,13 @@ void AntCodeGen::CodeGen(AntNode* n)
 			
 				for (size_t i=0; i<params->children.size(); i++)
 				{
-					const char* name = params->children[i]->GetString();
+					const char* name = params->children[i]->AsString();
 					scope->AddParam(name);
 				}
 			
 				for (size_t i=0; i<locals->children.size(); i++)
 				{
-					const char* name = locals->children[i]->GetString();
+					const char* name = locals->children[i]->AsString();
 					scope->AddLocal(name);
 				}
 			
@@ -126,7 +126,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 		
 			case NODE_CALL:
 			{
-				if (strcmp(node(0)->GetString(), "print") == 0)
+				if (strcmp(node(0)->AsString(), "print") == 0)
 				{
 					checknodes(2);
 					CodeGen(node(1));
@@ -134,7 +134,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 				}
 				else
 				{
-					AntScope* func = ctx.CurScope().FindFunction(node(0)->GetString());
+					AntScope* func = ctx.CurScope().FindFunction(node(0)->AsString());
 					for (int i=numnodes-1; i>=1; i--)
 						CodeGen(node(i));
 					Emit(OP_CALL);
@@ -161,7 +161,7 @@ void AntCodeGen::CodeGen(AntNode* n)
 			case NODE_LOCAL:
 			{
 				checknodes(2);
-				int offset = ctx.CurScope().AddLocal(node(0)->GetString());
+				int offset = ctx.CurScope().AddLocal(node(0)->AsString());
 				CodeGen(node(1));
 				Emit(OP_ASSIGN);
 				Emit(offset);
@@ -227,10 +227,9 @@ void AntCodeGen::CodeGen(AntNode* n)
 	}
 	catch (const AntError& e)
 	{
-		//string msg = format("CodeGen Error: line %d, %s\n", n->line, e.what());
-		string msg = ReportError(n->line, lines.at(n->line).c_str(), e.what());
-		//Print(msg);
-		//throw AntError(msg.c_str()); //exception(msg.c_str());
+        for (int i=0; i<(int)lines.size(); i++)
+            Print("    %d: %s\n", i, lines[i].c_str());
+		string msg = ReportError(n->line, n->column, e.what());
 		throw exception(msg.c_str());
 	}
 }

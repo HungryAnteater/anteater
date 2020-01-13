@@ -35,6 +35,19 @@ StringTable gStrings;
 int GetID(cstr str) { return gStrings.GetID(str); }
 cstr GetString(int id) { return gStrings.GetString(id); }
 
+//int GetID(cstr str) { return AntString::table()[str]; }
+//cstr GetString(int id) { return AntString::table()[id]; }
+
+string ReportError(int line, int col, cstr msg)
+{
+    return format(
+        "ERROR: %s\n"
+        "    line %d, column %d\n"
+        "    ... %s\n"
+        "        %s^\n",
+        msg, line, col, lines.at(line).c_str(), string(col, ' ').c_str());
+}
+
 //-------------------------------------------------------------------------
 int main(int numArgs, char* args[])
 {
@@ -92,12 +105,12 @@ string AntValue::ToString() const
 	{
 		case ANT_INVALID:	return "<invalid>";
 		case ANT_INT:		return format("%d", AsInt());
-		case ANT_FLOAT:		return format("%g", AsFloat());
+		case ANT_FLOAT:		return format("%f", AsFloat());
 		case ANT_STRING:	return AsString();
 		case ANT_ARRAY:
 		{
 			const string tab(4, ' ');
-			string s = "{\n"s + tab;
+			string s = "\n{\n"s;
 			for (const AntValue& x: AsArray())
 				s += tab + x.ToString() + ",\n"s;
 			s += "}";
@@ -108,10 +121,3 @@ string AntValue::ToString() const
 	}
 }
 
-AntCodeGen::AntCodeGen(const AntParser& parser, AntContext& ctx_, vector<OpCode>& code_):
-    lines(parser.lines),
-	ctx(ctx_),
-	code(code_)
-{
-	CodeGen(parser.root);
-}

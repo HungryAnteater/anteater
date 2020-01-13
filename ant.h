@@ -10,17 +10,8 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-inline string ReportError(int line, cstr ctx, cstr msg)
-{
-	return format(
-		"ERROR: %s\n"
-		"    line %d\n"
-		"    ... %s\n",
-		msg, line-1, ctx);
-}
-
 // Returns the 4-character string representation of the given token
-const char* TokToStr(int token);
+string TokToStr(int token);
 
 int GetID(cstr str);
 cstr GetString(int id);
@@ -62,8 +53,6 @@ struct AntString
 
 	operator cstr() const { return AsString(); }
 	operator string() const { return AsString(); }
-
-	static AntStringTable strings;
 
 	static AntStringTable& table()
 	{
@@ -127,10 +116,17 @@ enum AntNodeType
 	NUM_NODE_TYPES
 };
 
+inline int curLine = 1;
+inline int curColumn = 0;
+inline int colCounter = 0;
+inline vector<string> lines;
+
+string ReportError(int line, int col, cstr msg);
+
 class AntLexer
 {
 public:
-	AntLexer(const char* source): ptr(source) { instance = this; }
+	AntLexer(const char* source): ptr(source) { curLine = 0; instance = this; }
 	~AntLexer() { instance = nullptr; }
 
 	void Next(); // advance one token
@@ -141,7 +137,6 @@ public:
 	string strToken; // cur token as string stripped of ""
 	int intToken = 0;
 	float fltToken = 0;
-	int line = 1;
 	string context;
 
 	static inline AntLexer* instance = nullptr; // TEMP HACK
@@ -163,24 +158,28 @@ private:
 // Node struct used by parser
 struct AntNode
 {
-	AntNode(AntNodeType t=NODE_ABSTRACT) : type(t), asInt(0), line(AntLexer::instance ? AntLexer::instance->line : 0) {}
-	~AntNode() { for (auto c : children) delete c; }
+    AntNode(AntNodeType t=NODE_ABSTRACT): type(t), line(curLine), column(curColumn) {}
+    ~AntNode() { for (auto c : children) delete c; }
 	
 	void Add(AntNode* child) { children.push_back(child); }
-	void SetString(cstr s) { asInt = GetID(s); }
-	const char* GetString() const { return ::GetString(asInt); }
+	cstr AsString() const { return ::GetString(asInt); }
 	void PrintNode() const;
-	string ToString() const;
-	
+
+    void Set(int i) { asInt = i; }
+    void Set(float f) { asFloat = f; }
+    void Set(cstr s) { asInt = GetID(s); }
+    void Set(const string& s) { Set(s.c_str()); }
+    
 	union
 	{
-		int asInt;
+		int asInt = 0;
 		float asFloat;
 	};
 	
 	AntNodeType type;
 	vector<AntNode*> children;
 	int line = 0;
+    int column = 0;
 };
 
 enum AntType
@@ -269,19 +268,11 @@ public:
 			throw AntError("Array access out of bounds: %d", idx);
 	}
 
-	AntValue& operator[](int i) { CheckType(ANT_ARRAY); return AsArray()[i]; }
-	AntValue& operator[](const AntValue& i) { CheckIndex(i); return AsArray()[i.AsInt()]; }
+	AntValue operator[](int i) { CheckType(ANT_ARRAY); return AsArray().at(i); } 
+	AntValue operator[](const AntValue& i) { CheckIndex(i); int idx = i.AsInt(); return AsArray().at(i.AsInt()); }
 
 	string ToString() const;
 };
-
-//struct AntProgram
-//{
-//	string source;
-//	vector<string> lines;
-//	AntNode* ast;
-//	vector<OpCode> code;
-//};
 
 // Parser runs on construction and sets the public root field
 // to the resulting parse tree.
@@ -289,13 +280,12 @@ class AntParser
 {
 public:
 	AntParser(const char* src);
-	~AntParser();
+	~AntParser() { delete root; }
 	
 	void PrintTree();
 
 	// Parser output.  Pass these to AntCodeGen
 	const string source;
-	vector<string> lines;
 	AntNode* root = nullptr;
 	
 private:
@@ -310,8 +300,18 @@ private:
 	AntNode* Function();
 	AntNode* Identifier();
 	AntNode* BinaryOp(AntNodeType type, AntNode* a, AntNode* b);
-	
-	void Expect(int token); // Throw exception if cur token does not match expectation
+
+    void Expect(int token); // Throw exception if cur token does not match expectation	
+	void ExpectNext(int token) { Expect(token); lex.Next(); }
+
+    template <class T>
+    AntNode* NewNode(AntNodeType type, const T& value)
+    {
+        AntNode* n = new AntNode(type);
+        n->Set(value);
+        lex.Next();
+        return n;
+    }
 
 	AntLexer lex;
 };
@@ -405,7 +405,12 @@ struct AntContext
 class AntCodeGen
 {
 public:
-	AntCodeGen(const AntParser& parser, AntContext& ac, vector<OpCode>& oc);
+    AntCodeGen(AntNode* root, AntContext& ctx_, vector<OpCode>& code_):
+	    ctx(ctx_),
+	    code(code_)
+    {
+	    CodeGen(root);
+    }
 
 	static void PrintCode(const AntContext& ctx, const vector<OpCode>& range);
 
@@ -418,7 +423,6 @@ private:
 
 	AntContext& ctx;
 	vector<OpCode>& code;
-	const vector<string>& lines;
 };
 
 // This is the main interface that client code will use.

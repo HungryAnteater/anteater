@@ -42,6 +42,7 @@ void AntLexer::Next()
 {
 	for(;;)
 	{
+        curColumn = colCounter;
 		rawToken.clear();
 		Eat();
 	
@@ -160,7 +161,8 @@ void AntLexer::GetBlockComment()
 		
 		if (cur == '\n')
 		{
-			line++;
+			//line++;
+            curLine++;
 		}
 		else if (cur == '/' && next == '*')
 		{
@@ -251,19 +253,18 @@ void AntLexer::Eat()
 	}
 
 	if (*ptr == '\n')
-	{
-		line++;
-		context.clear();
-	}
-	else
-		context += *ptr;
+    {
+		curLine++;
+        colCounter = 0;
+    }
 
 	cur = *ptr++;
 	next = *ptr;
 	rawToken += cur;
+    colCounter++;
 }
 
-const char* TokToStr(int token)
+string TokToStr(int token)
 {
 	static int i[2];
 

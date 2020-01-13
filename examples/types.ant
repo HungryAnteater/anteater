@@ -20,6 +20,7 @@ local i6 = UINT_MAX;
 local f1 = -3.0;
 local f2 = 250.4;
 local f3 = 3;
+local f4 = "a";
 local f5 = 0.0;
 local f6 = 0.1;
 local f7 = 0.5;

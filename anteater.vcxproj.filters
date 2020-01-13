@@ -5,14 +5,14 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Scripts">
-      <UniqueIdentifier>{448d1e12-e2af-4887-9a4e-5162ad9ca002}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Docs">
       <UniqueIdentifier>{db9fbcd9-118c-487f-bea6-9382389bbae4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Misc">
       <UniqueIdentifier>{076e3985-e3f8-49b6-b320-7e77e50aebbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{6dc3d6e7-bcb0-4e29-a3d2-49e5e8590a0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,24 +50,24 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="scripts\factorial.ant">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="scripts\test.ant">
-      <Filter>Scripts</Filter>
-    </None>
-    <None Include="scripts\types.ant">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="README.md">
       <Filter>Docs</Filter>
     </None>
     <None Include=".gitignore">
       <Filter>Misc</Filter>
     </None>
+    <None Include="examples\factorial.ant">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="examples\test.ant">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="examples\types.ant">
+      <Filter>Examples</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="scripts\log.txt">
+    <Text Include="examples\log.txt">
       <Filter>Misc</Filter>
     </Text>
   </ItemGroup>

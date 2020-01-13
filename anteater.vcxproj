@@ -43,13 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="examples\factorial.ant" />
+    <None Include="examples\test.ant" />
+    <None Include="examples\types.ant" />
     <None Include="README.md" />
-    <None Include="scripts\factorial.ant" />
-    <None Include="scripts\test.ant" />
-    <None Include="scripts\types.ant" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="scripts\log.txt" />
+    <Text Include="examples\log.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

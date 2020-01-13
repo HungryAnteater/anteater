@@ -8,7 +8,7 @@ int AntScope::AddLocal(const char* name)
 	
 	locals.push_back(name);
 	int index = (int)locals.size();
-	Print("        AddLocal: %s, %d\n", name, index);
+	//Print("        AddLocal: %s, %d\n", name, index);
 	symbols[name] = index;
 	return index;
 }
@@ -20,7 +20,7 @@ int AntScope::AddParam(const char* name)
 	
 	params.push_back(name);
 	int index = -(int)params.size() - 1;
-	Print("AddParam: %s, %d\n", name, index);
+	//Print("       AddParam: %s, %d\n", name, index);
 	symbols[name] = index;
 	return index;
 }
@@ -42,7 +42,7 @@ AntScope* AntScope::AddFunction(const char* name)
 	func->parent = this;
 	func->name = name;
 	int index = (int)children.size();
-	Print("AddFunction: %s, %d\n", name, index);
+	//Print("     AddFunction: %s, %d\n", name, index);
 	children.push_back(func);
 	symbols[name] = index;
 	return func;

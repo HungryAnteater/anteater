@@ -4,6 +4,7 @@
 AntParser::AntParser(const char* src): source(src), lex(src)
 {
 	// Split source code into lines
+    lines.clear();
 	string_view tail = src;
 
 	while (!tail.empty())
@@ -22,34 +23,29 @@ AntParser::AntParser(const char* src): source(src), lex(src)
 		do
 		{
 			root->Add(Statement());
-			Expect(';');
+			ExpectNext(';');
 		}
 		while (lex.token != 'eof');
 	}
 	catch (const AntError& e)
 	{
-		string msg = ReportError(lex.line, lex.context.c_str(), e.what());
+		string msg = ReportError(curLine, curColumn, e.what());
 		throw exception(msg.c_str());
 	}
 }
 
-AntParser::~AntParser()
-{
-	delete root;
-}
-
 void AntParser::PrintTree()
 {
-	if (!root)
-		return;
-	
-	root->PrintNode();
-	Print("\n");
+    if (root)
+    {
+        root->PrintNode();
+        Print("\n");
+    }
 }
 
 AntNode* AntParser::Function()
 {
-	Expect('func');
+	ExpectNext('func');
 	AntNode* func = new AntNode(NODE_FUNC);
 	AntNode* name = new AntNode(NODE_ID);
 	AntNode* params = new AntNode(NODE_FUNC_PARAMS);
@@ -60,23 +56,23 @@ AntNode* AntParser::Function()
 	
 	if (lex.token == 'id')
 	{
-		name->SetString(lex.strToken.c_str());
+		name->Set(lex.strToken.c_str());
 		lex.Next();
 	}
 	else
-		name->SetString("anonymous");
+		name->Set("anonymous");
 		
-	Expect('(');
+	ExpectNext('(');
 	
 	while (lex.token != ')')
 	{
 		params->Add(Identifier());
 		
 		if (lex.token != ')')
-			Expect(',');
+			ExpectNext(',');
 	}
 	
-	Expect(')');
+	ExpectNext(')');
 	func->Add(Block());
 	return func;
 }
@@ -93,10 +89,10 @@ AntNode* AntParser::Statement()
 			
 		case 'if':
 			ret = new AntNode(NODE_IF);
-			Expect('if');
-			Expect('(');
+			ExpectNext('if');
+			ExpectNext('(');
 			ret->Add(Expression());
-			Expect(')');
+			ExpectNext(')');
 			ret->Add(Statement());
 			
 			if (lex.token == 'else')
@@ -110,9 +106,9 @@ AntNode* AntParser::Statement()
 		case 'whle':
 			ret = new AntNode(NODE_WHILE);
 			lex.Next();
-			Expect('(');
+			ExpectNext('(');
 			ret->Add(Expression());
-			Expect(')');
+			ExpectNext(')');
 			ret->Add(Statement());
 			break;
 			
@@ -120,18 +116,18 @@ AntNode* AntParser::Statement()
 			ret = new AntNode(NODE_DO_WHILE);
 			lex.Next();
 			ret->Add(Statement());
-			Expect('whle');
+			ExpectNext('whle');
 			ret->Add(Expression());
 			break;
 			
 		case 'frch':
 			ret = new AntNode(NODE_FOREACH);
 			lex.Next();
-			Expect('(');
+			ExpectNext('(');
 			ret->Add(Identifier());
-			Expect('in');
+			ExpectNext('in');
 			ret->Add(Expression());
-			Expect(')');
+			ExpectNext(')');
 			ret->Add(Statement());
 			break;
 			
@@ -190,13 +186,13 @@ AntNode* AntParser::Statement()
 
 AntNode* AntParser::Block()
 {
-	Expect('{');
+	ExpectNext('{');
 	AntNode* block = new AntNode(NODE_ABSTRACT);
 	
 	while (lex.token != '}')
 	{
 		block->Add(Statement());
-		Expect(';');
+		ExpectNext(';');
 	}
 	
 	lex.Next();
@@ -257,34 +253,6 @@ AntNode* AntParser::Expression4()
 	}
 }
 
-AntNode* IntNode(int x)
-{
-	AntNode* n = new AntNode(NODE_INT);
-	n->asInt = x;
-	return n;
-}
-
-AntNode* FloatNode(float x)
-{
-	AntNode* n = new AntNode(NODE_FLOAT);
-	n->asFloat = x;
-	return n;
-}
-
-AntNode* StringNode(const char* x)
-{
-	AntNode* n = new AntNode(NODE_STRING);
-	n->SetString(x);
-	return n;
-}
-
-AntNode* IdNode(const char* x)
-{
-	AntNode* n = new AntNode(NODE_ID);
-	n->SetString(x);
-	return n;
-}
-
 AntNode* AntParser::Factor()
 {
 	AntNode* factor = nullptr;
@@ -294,20 +262,17 @@ AntNode* AntParser::Factor()
 		case '(':
 			lex.Next();
 			factor = Expression();
-			Expect(')');
+			ExpectNext(')');
 			break;
 			
-		case 'true': factor=new AntNode(NODE_TRUE); factor->asInt=1; lex.Next(); break;
-		case 'fals': factor=new AntNode(NODE_TRUE); factor->asInt=0; lex.Next(); break;
-		case 'int': factor=new AntNode(NODE_INT); factor->asInt=lex.intToken; lex.Next(); break;
-		case 'flt': factor=new AntNode(NODE_FLOAT); factor->asFloat=lex.fltToken; lex.Next(); break;
-		case 'str': factor=new AntNode(NODE_STRING); factor->asInt=GetID(lex.strToken.c_str()); lex.Next(); break;
+		case 'true': factor = NewNode(NODE_TRUE, 1); break;
+		case 'fals': factor = NewNode(NODE_FALSE, 0); break;
+		case 'int': factor = NewNode(NODE_INT, lex.intToken); break;
+        case 'flt': factor = NewNode(NODE_FLOAT, lex.fltToken); break;
+        case 'str': factor = NewNode(NODE_STRING, lex.strToken); break;
 
 		case 'id':
-			factor = new AntNode(NODE_ID);
-			factor->SetString(lex.strToken.c_str());
-			lex.Next();
-			
+			factor = Identifier();
 			if (lex.token == '(')
 			{
 				AntNode* call = new AntNode(NODE_CALL);
@@ -325,7 +290,7 @@ AntNode* AntParser::Factor()
 					}
 				}
 				
-				Expect(')');
+				ExpectNext(')');
 				return call;
 			}
 			else if (lex.token == '[')
@@ -335,7 +300,7 @@ AntNode* AntParser::Factor()
 				lex.Next();
 				
 				index->Add(Expression());
-				Expect(']');
+				ExpectNext(']');
 				
 				if (lex.token == '=')
 				{
@@ -351,12 +316,6 @@ AntNode* AntParser::Factor()
 			
 			break;
 			
-		//case 'true':
-		//	lex.Next();
-		//	factor=new AntNode(NODE_INT);
-		//	factor->asInt=1;
-		//	break;
-
 		case '-':
 			factor = new AntNode(NODE_NEG);
 			lex.Next();
@@ -377,7 +336,7 @@ AntNode* AntParser::Factor()
 				factor->Add(Factor());
 				if (lex.token != ']')
 				{
-					Expect(',');
+					ExpectNext(',');
 				}
 			}
 			lex.Next();
@@ -393,13 +352,8 @@ AntNode* AntParser::Factor()
 
 AntNode* AntParser::Identifier()
 {
-	if (lex.token != 'id')
-		throw AntError("Expected identifier, found '%s'", TokToStr(lex.token));
-		
-	AntNode* n = new AntNode(NODE_ID);
-	n->SetString(lex.strToken.c_str());
-	lex.Next();
-	return n;
+    Expect('id');
+    return NewNode(NODE_ID, lex.strToken);
 }
 
 AntNode* AntParser::BinaryOp(AntNodeType type, AntNode* a, AntNode* b)
@@ -413,11 +367,6 @@ AntNode* AntParser::BinaryOp(AntNodeType type, AntNode* a, AntNode* b)
 void AntParser::Expect(int token)
 {
 	if (lex.token != token)
-	{
-		string expected = TokToStr(token);
-		string got = TokToStr(lex.token);
-		throw AntError("Expected '%s', found '%s'", expected.c_str(), got.c_str());
-	}
-	
-	lex.Next();
+		throw AntError("Expected '%s', got '%s'", TokToStr(token).c_str(), TokToStr(lex.token).c_str());
 }
+

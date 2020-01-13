@@ -59,10 +59,10 @@ void AntNode::PrintNode() const
 		scase(NODE_TRUE,		"true");
 		scase(NODE_FALSE,		"false");
 
-		scase(NODE_ID,			"id: %s", GetString());
+		scase(NODE_ID,			"id: %s", AsString());
 		scase(NODE_INT,			"int: %d", asInt);
 		scase(NODE_FLOAT,		"float: %gf", asFloat);
-		scase(NODE_STRING,		"string: \"%s\"", GetString());
+		scase(NODE_STRING,		"string: \"%s\"", AsString());
 		scase(NODE_ARRAY,		"array: ...");
 
 		#undef scase

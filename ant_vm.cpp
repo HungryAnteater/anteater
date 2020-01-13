@@ -15,52 +15,6 @@
 #endif
 
 // Hairy interpreter macros
-//#define local_ab(op) AntValue& a = Stack(2); AntValue& b = Stack(1); PrintOp("%s %s %s", a.ToString().c_str(), #op, b.ToString().c_str())
-#define local_ab AntValue& a=Stack(2); AntValue& b=Stack(1)
-#define endcase(op) default: Error("%s operator used on invalid types", #op)
-
-#define intint(op)\
-	case ANT_INT:\
-		a.AsInt() = a.AsInt() op b.AsInt();\
-		Pop(); break
-
-#define intfloat(op)\
-	case ANT_FLOAT:\
-		a.AsFloat() = a.AsInt() op b.AsFloat();\
-		a.type = ANT_FLOAT;\
-		Pop(); break
-		
-#define floatint(op)\
-	case ANT_INT:\
-		a.AsFloat() = a.AsFloat() op b.AsInt();\
-		Pop(); break
-		
-#define floatfloat(op)\
-	case ANT_FLOAT:\
-		a.AsFloat() = a.AsFloat() op b.AsFloat();\
-		Pop(); break
-		
-#define nastyopmacro(op)\
-	switch (a.type) {\
-		case ANT_INT: {\
-			switch (b.type) {\
-				intint(op);\
-				intfloat(op);\
-				endcase(op);\
-			}\
-			break;\
-		}\
-		case ANT_FLOAT: {\
-			switch (b.type) {\
-				floatint(op);\
-				floatfloat(op);\
-				endcase(op);\
-			}\
-			break;\
-		}\
-		endcase(op);\
-	}
-	
 #define numcompare(op)\
 	if (a.IsInt() && b.IsInt()) a = a.AsInt() op b.AsInt();\
 	else if (a.IsFloat() && b.IsFloat()) a = a.AsFloat() op b.AsFloat();\
@@ -70,21 +24,23 @@
 #define logicalop(op)\
 {\
 	PrintOp("LOGICALOP %s", #op);\
-	local_ab;\
+	AntValue& a = Stack(2);\
+    AntValue& b = Stack(1);\
 	numcompare(op);\
 	else if (a.IsString() && b.IsString()) a = a.AsInt() op b.AsInt();\
 	else Error("Comparison between unrelated types");\
-	Pop();\
+	PopVars(1);\
 	break;\
 }
 
 #define logicalnumop(op)\
 {\
 	PrintOp("LOGICALOP %s", #op);\
-	local_ab;\
+	AntValue& a = Stack(2);\
+    AntValue& b = Stack(1);\
 	numcompare(op);\
 	else Error("Comparison between unrelated types");\
-	Pop();\
+	PopVars(1);\
 	break;\
 }
 
@@ -97,7 +53,7 @@ bool AntVM::CompileString(const char* source)
 		if (bPrintTree) parser.PrintTree();
 
 		Print("    Generating code...\n");
-		AntCodeGen codegen(parser, ctx, code);
+		AntCodeGen codegen(parser.root, ctx, code);
 	}
 	catch (const AntError& e)
 	{
@@ -114,7 +70,7 @@ bool AntVM::CompileFile(const char* path)
 
 	Print("\nCompiling %s...\n", path);
 	string name = format("__file%d", numFiles++);
-	string src = format("function %s() { \n%s\n }; %s();", name.c_str(), LoadFile(path).c_str(), name.c_str());
+	string src = format("function %s() { \n%s\n return; }; %s();", name.c_str(), LoadFile(path).c_str(), name.c_str());
 	return CompileString(src.c_str());
 }
 
@@ -169,16 +125,18 @@ void AntVM::Run()
 	int* ip = code.data();
 	int fp = 0;
 	vector<int> numParams;
-	string output;
+    string output;
 
 	// Readability macros
 	#define Push(x)		(stack.push_back(x))
 	#define PushVars(n)	(stack.resize(stack.size()+n))
-	#define Pop()		(stack.pop_back())
+    #define PopBack()   stack.back(); stack.pop_back();
 	#define PopVars(n)	(stack.resize(stack.size()-n))
 	#define Top()		(stack.back())
 	#define Stack(i)	(*(stack.end()-i))
 	#define Local(i)	(stack[fp+i])
+
+    auto PopBack = [&](){ AntValue v=stack.back(); stack.pop_back(); return v; };
 
 	#define as_int(i)	Stack(i).AsInt() //(Stack(i).type == ANT_INT ? Stack(i) : throw AntException("Parameter type mismatch.  Expected %s, got %s", AntTypeNames[ANT_INT], AntTypeNames[Stack(i).type])
 	#define as_array(i) Stack(i).AsArray() //(Stack(i).type == ANT_ARRAY ? Stack(i) : throw AntException("Invalid arg"))
@@ -187,7 +145,7 @@ void AntVM::Run()
 	//	sprintf_s(buffer, x, a.y, b.z);\
 	//	a.AsInt() = gStrings.GetID(buffer);\
 	//	a.type = ANT_STRING;\
-	//	Pop();
+	//	PopVars(1);
 	
 	try
 	{
@@ -219,7 +177,7 @@ void AntVM::Run()
 					AntValue& a = Local(*ip++);
 					AntValue& b = Stack(1);
 					a = b;
-					Pop();
+					PopVars(1);
 					break;
 				}
 			
@@ -229,10 +187,10 @@ void AntVM::Run()
 					AntValue ret = Top();
 					stack.resize(fp + 1);
 					fp = Top().AsInt();
-					Pop();
+					PopVars(1);
 					//ip = (int*)Top().AsInt();
 					ip = code.data() + Top().AsInt();
-					Pop();
+					PopVars(1);
 					int numtopop = numParams.back();
 					PopVars(numtopop);
 					numParams.pop_back();
@@ -254,7 +212,7 @@ void AntVM::Run()
 					PrintOp("PRINT");
 					AntValue& v = Stack(1);
 					output += v.ToString() + "\n"s;
-					Pop();
+					PopVars(1);
 					break;
 				}
 			
@@ -278,32 +236,28 @@ void AntVM::Run()
 				{
 					PrintOp("PUSH_ARRAY ");
 					int num = *ip++;
-					//AntArray array;
-					//for (int i=0; i<num; i++)
-					//{
-					//	array.push_back(Top());
-					//	Pop();
-					//}
-					//Push(AntValue(array));
-					Push(AntArray(stack.end()-1-num, stack.end()));
+					Push(AntArray(stack.rbegin(), stack.rbegin()+num));
 					break;
 				}
 			
 				case OP_GET:
 				{
 					PrintOp("GET ");
-					AntValue& v = Stack(2);
-					AntValue& index = Stack(1);
-					Stack(2) = v[index];
-					//Stack(2) = Stack(2)[Stack(1)]; // array[index]; // array.AsArray().at(index.AsInt());
-					PopVars(1);
+                    AntValue& v = Stack(2);
+                    AntValue& i = Stack(1);
+                    v = v[i];
+                    PopVars(1);
+
 					break;
 				}
 			
 				case OP_SET:
 				{
 					PrintOp("SET ");
-					Stack(3)[Stack(2)] = Stack(1);
+                    AntValue& v = Stack(3);
+                    AntValue& i = Stack(2);
+                    AntValue& x = Stack(1);
+                    v[i] = x;
 					PopVars(2);
 					break;
 				}
@@ -322,17 +276,18 @@ void AntVM::Run()
 				case OP_ADD:
 				{
 					PrintOp("ADD ");
-					local_ab;
+					AntValue& a = Stack(2);
+                    AntValue& b = Stack(1);
 
 					if (a.IsString() || b.IsString())
 					{
 						a = a.ToString() + b.ToString();
-						Pop();
+						PopVars(1);
 					}
 					else
 					{
 						a = BinaryOp(a, b, [](auto&& a, auto&& b){ return a+b; });
-						Pop();
+						PopVars(1);
 					}
 					break;
 				}
@@ -340,41 +295,44 @@ void AntVM::Run()
 				case OP_SUB:
 				{
 					PrintOp("SUB ");
-					local_ab;
+					AntValue& a = Stack(2);
+                    AntValue& b = Stack(1);
 					a = BinaryOp(a, b, [](auto&& a, auto&& b){ return a-b; });
-					Pop();
+					PopVars(1);
 					break;
 				}
 				
 				case OP_MUL:
 				{
 					PrintOp("MUL ");
-					local_ab;
-					//nastyopmacro(*);
+					AntValue& a = Stack(2);
+                    AntValue& b = Stack(1);
 					a = BinaryOp(a, b, [](auto&& a, auto&& b){ return a*b; });
-					Pop();
+					PopVars(1);
 					break;
 				}
 				
 				case OP_DIV:
 				{
 					PrintOp("DIV ");
-					local_ab;
+					AntValue& a = Stack(2);
+                    AntValue& b = Stack(1);
 					a = BinaryOp(a, b, [](auto&& a, auto&& b){ return a/b; });
-					Pop();
+					PopVars(1);
 					break;
 				}
 			
 				case OP_MOD:
 				{
 					PrintOp("MOD ");
-					local_ab;
+					AntValue& a = Stack(2);
+                    AntValue& b = Stack(1);
 
 					if (!a.IsInt() || !b.IsInt())
 						Error("% can only be used with integer values");
 
 					Stack(2) = as_int(2) % as_int(1);
-					Pop();
+					PopVars(1);
 					break;
 				}
 			
@@ -392,7 +350,7 @@ void AntVM::Run()
 					int offset = *ip++;
 					if (Top().AsInt() == 0)
 						ip += offset;
-					Pop();
+					PopVars(1);
 					break;
 				}
 			
@@ -402,7 +360,7 @@ void AntVM::Run()
 					int offset = *ip++;
 					if (Top().AsInt() != 0)
 						ip += offset;
-					Pop();
+					PopVars(1);
 					break;
 				}
 			

@@ -14,11 +14,6 @@ string vformat(const char* fmt, va_list args)
    else
       s.resize(newsz);
    return s;
-
-   //char buf[1024] {0};
-   //auto plen = vsnprintf(buf, sizeof buf, fmt, args);
-   //if (plen < 0) throw exception(("Bad format specifier: "s + fmt).c_str());
-   //return buf;
 }
 
 string format(const char* fmt, ...)
@@ -28,21 +23,6 @@ string format(const char* fmt, ...)
    string s = vformat(fmt, args);
    va_end(args);
    return s;
-}
-
-const char* sformat(const char* fmt, ...)
-{
-	static char buf[512] {0};
-	static bool locked = false;
-	assert(!locked);
-	locked = true;
-	va_list args;
-	va_start(args, fmt);
-	auto plen = vsnprintf(buf, sizeof buf, fmt, args);
-	if (plen < 0) return "<bad format specifier>";
-	va_end(args);
-	return buf;
-	locked = false;
 }
 
 string LoadFile(const char* path)
