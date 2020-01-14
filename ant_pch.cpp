@@ -74,7 +74,6 @@ void Print(cstr msg)
     static ofstream output("log.txt");
     cout << msg;
     output << msg;
-    //OutputDebugStringA(msg.c_str());
 }
 
 string LoadFile(cstr path)

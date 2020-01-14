@@ -123,6 +123,8 @@ enum AntCode : OpCode
     NUM_OPS
 };
 
+#define combine(a,b) ((a<<8) | b)
+
 inline int curLine = 1;
 inline int curColumn = 0;
 inline int colCounter = 0;

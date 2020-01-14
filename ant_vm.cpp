@@ -47,6 +47,8 @@
     break;\
 }
 
+constexpr int escapedChars[] {'n', 'r', 't'};
+
 bool AntVM::CompileString(const char* source)
 {
     try
@@ -187,7 +189,14 @@ void AntVM::Run()
                 {
                     PrintOp("PRINT");
                     AntValue& v = Stack(1);
-                    output += sformat("%s\n", v.ToString());
+                    for (cstr c=v.ToString(); *c; c++)
+                    {
+                        if (*c == '\\' && Contains(escapedChars, *(c+1)))
+                            int escaped = combine('\\', *++c);
+                        else
+                            output += *c;
+                    }
+                    output += '\n';
                     PopVars(1);
                     break;
                 }

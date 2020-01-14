@@ -5,7 +5,7 @@
 #include "ant_pch.h"
 #include "ant.h"
 
-BiMap<int, cstr> keywords
+const BiMap<int, cstr> keywords
 {
     {'and',     "and"     },
     {'brk',     "break"   },
@@ -54,23 +54,19 @@ cstr TokToStr(int tok)
     return sformat("%s", (char*)&(i[0]));
 }
 
-#define combine(a,b) ((a<<8) | b)
+#define tok2(a,b)\
+    case a:\
+        if (next == b) { Eat(); token=combine(a,b); }\
+        else token=a;\
+        return;
 
-#define tok2(a,b) case a:\
-    switch(next)\
-    {\
-        case b: Eat(); token=combine(a,b); return;\
-        default: token=a; return;\
-    }
-    
-#define tok3(a,b,c) case a:\
-    switch(next)\
-    {\
-        case b: Eat(); token=combine(a,b); return;\
-        case c: Eat(); token=combine(a,c); return;\
-        default: token=a; return;\
-    }
-                
+#define tok3(a,b,c)\
+    case a:\
+        if (next == b) { Eat(); token=combine(a,b); }\
+        else if (next == c) { Eat(); token=combine(a,c); }\
+        else token=a;\
+        return;
+
 void AntLexer::Next()
 {
     for(;;)
@@ -159,17 +155,6 @@ void AntLexer::GetString()
     
     while (cur != '\"')
     {
-        if (cur == '\\')
-        {
-            switch (next)
-            {
-                case 'n': cur = '\n';  Eat(); Eat(); break;
-                case 'r': cur = '\r';  Eat(); Eat(); break;
-                case 't': cur = '\t';  Eat(); Eat(); break;
-                case '\"': cur = '\"'; Eat(); Eat(); break;
-                case '\'': cur = '\''; Eat(); Eat(); break;
-            }
-        }
         strToken += cur;
         Eat();
     }

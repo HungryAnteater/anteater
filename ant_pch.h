@@ -65,6 +65,21 @@ inline sview NoExtension(kview s)       { return Left(s, s.find_first_of('.')); 
 
 string LoadFile(cstr path);
 
+template <class T1, class T2>
+bool Contains(const T1& v, const T2& x)
+{
+   return find(begin(v), end(v), x) != end(v);
+}
+
+template <class K, class V>
+bool Find(const unordered_map<K, V>& map, const K& key, V& val)
+{
+    auto i = map.find(key);
+    bool ret = i != map.end();
+    if (ret) val = i->second;
+    return ret;
+}
+
 inline constexpr size_t fnv_offset_basis = 14695981039346656037ULL;
 inline constexpr size_t fnv_prime        = 1099511628211ULL;
 
@@ -118,18 +133,9 @@ public:
 
     const V& operator[](const K& key) const { return vals.at(key); }
     const K& operator[](const V& val) const { return keys.at(val); }
-
+     
     bool FindKey(const V& val, K& key) const { return ::Find(keys, val, key); }
 };
-
-template <class K, class V>
-bool Find(const unordered_map<K, V>& map, const K& key, V& val)
-{
-    auto i = map.find(key);
-    bool ret = i != map.end();
-    if (ret) val = i->second;
-    return ret;
-}
 
 template <class K, class V>
 class BiMap

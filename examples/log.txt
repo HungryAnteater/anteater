@@ -10,7 +10,7 @@ Compiling factorial.ant...
       node
         call
           id: print
-          string: "n--------------------------"
+          string: "\n--------------------------"
         call
           id: print
           string: "Running factorial.ant..."
@@ -394,9 +394,1232 @@ Compiling test.ant...
 
 Compiling types.ant...
     Parsing...
-ERROR: Expected ')', got 'id'
-    line 9, column 8
-    ... print("INT_MIN, INT_MAX: " + INT_MIN + ", " + INT_MAX);
-                ^
-Compilation failed.  Terminating.
+
+  node
+    function
+      id: __types
+      func_params
+      func_locals
+      node
+        call
+          id: print
+          string: "\n--------------------------"
+        call
+          id: print
+          string: "Running types.ant...\n"
+        local
+          id: INT_MAX
+          int: 2147483647
+        local
+          id: INT_MIN
+          neg
+            int: 2147483647
+        local
+          id: UINT_MIN
+          int: 0
+        local
+          id: UINT_MAX
+          int: 2147483647
+        call
+          id: print
+          +
+            string: "INT_MIN, INT_MAX: "
+            +
+              id: INT_MIN
+              +
+                string: ", "
+                id: INT_MAX
+        call
+          id: print
+          +
+            string: "UINT_MIN, UINT_MAX: "
+            +
+              id: UINT_MIN
+              +
+                string: ", "
+                id: UINT_MAX
+        local
+          id: i1
+          int: 25
+        local
+          id: i2
+          neg
+            int: 4
+        local
+          id: i3
+          id: INT_MAX
+        local
+          id: i4
+          id: INT_MIN
+        local
+          id: i5
+          id: UINT_MIN
+        local
+          id: i6
+          id: UINT_MAX
+        local
+          id: f1
+          neg
+            float: 3f
+        local
+          id: f2
+          float: 250.4f
+        local
+          id: f3
+          int: 3
+        local
+          id: f4
+          string: "a"
+        local
+          id: f5
+          float: 0f
+        local
+          id: f6
+          float: 0.1f
+        local
+          id: f7
+          float: 0.5f
+        local
+          id: f8
+          float: 0.1f
+        local
+          id: vi
+          array: ...
+            id: i1
+            id: i2
+            id: i3
+            id: i4
+            id: i5
+            id: i6
+        local
+          id: vf
+          array: ...
+            id: f1
+            id: f2
+            id: f3
+            id: f4
+            id: f5
+            id: f6
+            id: f7
+            id: f8
+        call
+          id: print
+          +
+            string: "vi: "
+            id: vi
+        call
+          id: print
+          +
+            string: "vf: "
+            id: vf
+        return
+    call
+      id: __types
+    Generating code...
+
+
+CodeGen Output:
+   0:   BRA              50
+   2:   PUSH_STRING      "\n--------------------------"
+   4:   PRINT
+   5:   PUSH_STRING      "Running factorial.ant..."
+   7:   PRINT
+   8:   BRA              25
+  10:   PUSH_VAR         -2
+  12:   PUSH_INT         0
+  14:   EQUAL
+  15:   BRZ              5
+  17:   PUSH_INT         1
+  19:   RETURN
+  20:   BRA              13
+  22:   PUSH_VAR         -2
+  24:   PUSH_VAR         -2
+  26:   PUSH_INT         1
+  28:   SUB
+  29:   CALL             factorial  1  0
+  33:   MUL
+  34:   RETURN
+  35:   PUSH_INT         7
+  37:   CALL             factorial  1  0
+  41:   ASSIGN           1
+  43:   PUSH_STRING      "factorial(7) = "
+  45:   PUSH_VAR         1
+  47:   ADD
+  48:   PRINT
+  49:   PUSH_INT         0
+  51:   RETURN
+  52:   CALL             __factorial  0  1
+  56:   BRA              446
+  58:   PUSH_STRING      ""
+  60:   PRINT
+  61:   PUSH_STRING      "--------------------------"
+  63:   PRINT
+  64:   PUSH_STRING      "Running test.ant..."
+  66:   PRINT
+  67:   BRA              6
+  69:   PUSH_STRING      "f1() outer"
+  71:   PRINT
+  72:   PUSH_INT         0
+  74:   RETURN
+  75:   BRA              320
+  77:   BRA              6
+  79:   PUSH_STRING      "f1() inner"
+  81:   PRINT
+  82:   PUSH_INT         0
+  84:   RETURN
+  85:   CALL             f1  0  0
+  89:   BRA              6
+  91:   PUSH_STRING      "f3()"
+  93:   PRINT
+  94:   PUSH_INT         0
+  96:   RETURN
+  97:   CALL             f3  0  0
+ 101:   PUSH_INT         5
+ 103:   ASSIGN           1
+ 105:   PUSH_INT         6
+ 107:   ASSIGN           2
+ 109:   PUSH_VAR         1
+ 111:   PUSH_STRING      " < 5: "
+ 113:   PUSH_VAR         1
+ 115:   PUSH_INT         5
+ 117:   LESS
+ 118:   ADD
+ 119:   ADD
+ 120:   PRINT
+ 121:   PUSH_VAR         1
+ 123:   PUSH_STRING      " <= 5: "
+ 125:   PUSH_VAR         1
+ 127:   PUSH_INT         5
+ 129:   LEQUAL
+ 130:   ADD
+ 131:   ADD
+ 132:   PRINT
+ 133:   PUSH_VAR         1
+ 135:   PUSH_STRING      " > 5: "
+ 137:   PUSH_VAR         1
+ 139:   PUSH_INT         5
+ 141:   GREATER
+ 142:   ADD
+ 143:   ADD
+ 144:   PRINT
+ 145:   PUSH_VAR         1
+ 147:   PUSH_STRING      " >= 5: "
+ 149:   PUSH_VAR         1
+ 151:   PUSH_INT         5
+ 153:   GEQUAL
+ 154:   ADD
+ 155:   ADD
+ 156:   PRINT
+ 157:   PUSH_VAR         1
+ 159:   PUSH_STRING      " == 5: "
+ 161:   PUSH_VAR         1
+ 163:   PUSH_INT         5
+ 165:   EQUAL
+ 166:   ADD
+ 167:   ADD
+ 168:   PRINT
+ 169:   PUSH_VAR         1
+ 171:   PUSH_STRING      " != 5: "
+ 173:   PUSH_VAR         1
+ 175:   PUSH_INT         5
+ 177:   NEQUAL
+ 178:   ADD
+ 179:   ADD
+ 180:   PRINT
+ 181:   PUSH_VAR         1
+ 183:   PUSH_INT         5
+ 185:   LESS
+ 186:   BRZ              8
+ 188:   PUSH_VAR         1
+ 190:   PUSH_STRING      " < 5"
+ 192:   ADD
+ 193:   PRINT
+ 194:   BRA              33
+ 196:   PUSH_VAR         1
+ 198:   PUSH_INT         5
+ 200:   GREATER
+ 201:   BRZ              8
+ 203:   PUSH_VAR         1
+ 205:   PUSH_STRING      " > 5"
+ 207:   ADD
+ 208:   PRINT
+ 209:   BRA              18
+ 211:   PUSH_VAR         1
+ 213:   PUSH_VAR         2
+ 215:   LESS
+ 216:   BRZ              5
+ 218:   PUSH_STRING      "i < j"
+ 220:   PRINT
+ 221:   BRA              0
+ 223:   PUSH_VAR         1
+ 225:   PUSH_STRING      " == 5"
+ 227:   ADD
+ 228:   PRINT
+ 229:   PUSH_INT         0
+ 231:   ASSIGN           1
+ 233:   PUSH_VAR         1
+ 235:   PUSH_INT         5
+ 237:   LEQUAL
+ 238:   BRZ              18
+ 240:   PUSH_STRING      "while "
+ 242:   PUSH_VAR         1
+ 244:   PUSH_STRING      " of 5"
+ 246:   ADD
+ 247:   ADD
+ 248:   PRINT
+ 249:   PUSH_VAR         1
+ 251:   PUSH_INT         1
+ 253:   ADD
+ 254:   ASSIGN           1
+ 256:   BRA              -25
+ 258:   PUSH_VAR         -4
+ 260:   PUSH_FLOAT       2.000000
+ 262:   PUSH_INT         1
+ 264:   PUSH_ARRAY       3
+ 266:   ASSIGN           3
+ 268:   PUSH_INT         0
+ 270:   ASSIGN           1
+ 272:   PUSH_VAR         1
+ 274:   PUSH_INT         3
+ 276:   LESS
+ 277:   BRZ              24
+ 279:   PUSH_STRING      "array["
+ 281:   PUSH_VAR         1
+ 283:   PUSH_STRING      "] = "
+ 285:   PUSH_VAR         3
+ 287:   PUSH_VAR         1
+ 289:   GET
+ 290:   ADD
+ 291:   ADD
+ 292:   ADD
+ 293:   PRINT
+ 294:   PUSH_VAR         1
+ 296:   PUSH_INT         1
+ 298:   ADD
+ 299:   ASSIGN           1
+ 301:   BRA              -31
+ 303:   PUSH_VAR         3
+ 305:   PUSH_INT         0
+ 307:   PUSH_INT         1234
+ 309:   SET
+ 310:   PUSH_VAR         3
+ 312:   PUSH_INT         0
+ 314:   GET
+ 315:   PRINT
+ 316:   PUSH_STRING      "a: "
+ 318:   PUSH_VAR         -2
+ 320:   ADD
+ 321:   PRINT
+ 322:   PUSH_STRING      "b: "
+ 324:   PUSH_VAR         -3
+ 326:   ADD
+ 327:   PRINT
+ 328:   PUSH_STRING      "c: "
+ 330:   PUSH_VAR         -4
+ 332:   ADD
+ 333:   PRINT
+ 334:   PUSH_STRING      "'a' + 'b': "
+ 336:   PUSH_STRING      "a"
+ 338:   PUSH_STRING      "b"
+ 340:   ADD
+ 341:   ADD
+ 342:   PRINT
+ 343:   PUSH_STRING      "5.0 + a: "
+ 345:   PUSH_FLOAT       5.000000
+ 347:   PUSH_VAR         -2
+ 349:   ADD
+ 350:   ADD
+ 351:   PRINT
+ 352:   PUSH_STRING      "5.0 - a: "
+ 354:   PUSH_FLOAT       5.000000
+ 356:   PUSH_VAR         -2
+ 358:   SUB
+ 359:   ADD
+ 360:   PRINT
+ 361:   PUSH_STRING      "5.0 * b: "
+ 363:   PUSH_FLOAT       5.000000
+ 365:   PUSH_VAR         -3
+ 367:   MUL
+ 368:   ADD
+ 369:   PRINT
+ 370:   PUSH_STRING      "20.0 / b: "
+ 372:   PUSH_FLOAT       20.000000
+ 374:   PUSH_VAR         -3
+ 376:   DIV
+ 377:   ADD
+ 378:   PRINT
+ 379:   PUSH_STRING      "10 mod 4: "
+ 381:   PUSH_INT         10
+ 383:   PUSH_INT         4
+ 385:   MOD
+ 386:   ADD
+ 387:   PRINT
+ 388:   PUSH_VAR         -2
+ 390:   PUSH_VAR         -3
+ 392:   PUSH_VAR         -4
+ 394:   MUL
+ 395:   ADD
+ 396:   RETURN
+ 397:   BRA              28
+ 399:   PUSH_VAR         -2
+ 401:   PUSH_VAR         -3
+ 403:   ADD
+ 404:   ASSIGN           1
+ 406:   PUSH_STRING      "add("
+ 408:   PUSH_VAR         -2
+ 410:   PUSH_STRING      ", "
+ 412:   PUSH_VAR         -3
+ 414:   PUSH_STRING      "): "
+ 416:   PUSH_VAR         1
+ 418:   ADD
+ 419:   ADD
+ 420:   ADD
+ 421:   ADD
+ 422:   ADD
+ 423:   PRINT
+ 424:   PUSH_VAR         1
+ 426:   RETURN
+ 427:   CALL             f1  0  0
+ 431:   PUSH_FLOAT       3.000000
+ 433:   PUSH_INT         2
+ 435:   PUSH_FLOAT       0.500000
+ 437:   CALL             f2  3  3
+ 441:   ASSIGN           1
+ 443:   PUSH_VAR         1
+ 445:   PRINT
+ 446:   PUSH_INT         2
+ 448:   PUSH_INT         1
+ 450:   CALL             TestAdd  2  1
+ 454:   PUSH_INT         8
+ 456:   PUSH_INT         4
+ 458:   CALL             TestAdd  2  1
+ 462:   PUSH_INT         0
+ 464:   PUSH_FLOAT       0.000000
+ 466:   CALL             TestAdd  2  1
+ 470:   PUSH_INT         0
+ 472:   PUSH_FLOAT       2.000000
+ 474:   SUB
+ 475:   PUSH_INT         0
+ 477:   PUSH_INT         1
+ 479:   SUB
+ 480:   CALL             TestAdd  2  1
+ 484:   PUSH_INT         0
+ 486:   PUSH_INT         3
+ 488:   SUB
+ 489:   PUSH_INT         3
+ 491:   CALL             TestAdd  2  1
+ 495:   PUSH_STRING      "Done!"
+ 497:   PRINT
+ 498:   PUSH_STRING      ""
+ 500:   PRINT
+ 501:   PUSH_INT         0
+ 503:   RETURN
+ 504:   CALL             __test  0  1
+ 508:   BRA              162
+ 510:   PUSH_STRING      "\n--------------------------"
+ 512:   PRINT
+ 513:   PUSH_STRING      "Running types.ant...\n"
+ 515:   PRINT
+ 516:   PUSH_INT         2147483647
+ 518:   ASSIGN           1
+ 520:   PUSH_INT         0
+ 522:   PUSH_INT         2147483647
+ 524:   SUB
+ 525:   ASSIGN           2
+ 527:   PUSH_INT         0
+ 529:   ASSIGN           3
+ 531:   PUSH_INT         2147483647
+ 533:   ASSIGN           4
+ 535:   PUSH_STRING      "INT_MIN, INT_MAX: "
+ 537:   PUSH_VAR         2
+ 539:   PUSH_STRING      ", "
+ 541:   PUSH_VAR         1
+ 543:   ADD
+ 544:   ADD
+ 545:   ADD
+ 546:   PRINT
+ 547:   PUSH_STRING      "UINT_MIN, UINT_MAX: "
+ 549:   PUSH_VAR         3
+ 551:   PUSH_STRING      ", "
+ 553:   PUSH_VAR         4
+ 555:   ADD
+ 556:   ADD
+ 557:   ADD
+ 558:   PRINT
+ 559:   PUSH_INT         25
+ 561:   ASSIGN           5
+ 563:   PUSH_INT         0
+ 565:   PUSH_INT         4
+ 567:   SUB
+ 568:   ASSIGN           6
+ 570:   PUSH_VAR         1
+ 572:   ASSIGN           7
+ 574:   PUSH_VAR         2
+ 576:   ASSIGN           8
+ 578:   PUSH_VAR         3
+ 580:   ASSIGN           9
+ 582:   PUSH_VAR         4
+ 584:   ASSIGN           10
+ 586:   PUSH_INT         0
+ 588:   PUSH_FLOAT       3.000000
+ 590:   SUB
+ 591:   ASSIGN           11
+ 593:   PUSH_FLOAT       250.399994
+ 595:   ASSIGN           12
+ 597:   PUSH_INT         3
+ 599:   ASSIGN           13
+ 601:   PUSH_STRING      "a"
+ 603:   ASSIGN           14
+ 605:   PUSH_FLOAT       0.000000
+ 607:   ASSIGN           15
+ 609:   PUSH_FLOAT       0.100000
+ 611:   ASSIGN           16
+ 613:   PUSH_FLOAT       0.500000
+ 615:   ASSIGN           17
+ 617:   PUSH_FLOAT       0.100000
+ 619:   ASSIGN           18
+ 621:   PUSH_VAR         10
+ 623:   PUSH_VAR         9
+ 625:   PUSH_VAR         8
+ 627:   PUSH_VAR         7
+ 629:   PUSH_VAR         6
+ 631:   PUSH_VAR         5
+ 633:   PUSH_ARRAY       6
+ 635:   ASSIGN           19
+ 637:   PUSH_VAR         18
+ 639:   PUSH_VAR         17
+ 641:   PUSH_VAR         16
+ 643:   PUSH_VAR         15
+ 645:   PUSH_VAR         14
+ 647:   PUSH_VAR         13
+ 649:   PUSH_VAR         12
+ 651:   PUSH_VAR         11
+ 653:   PUSH_ARRAY       8
+ 655:   ASSIGN           20
+ 657:   PUSH_STRING      "vi: "
+ 659:   PUSH_VAR         19
+ 661:   ADD
+ 662:   PRINT
+ 663:   PUSH_STRING      "vf: "
+ 665:   PUSH_VAR         20
+ 667:   ADD
+ 668:   PRINT
+ 669:   PUSH_INT         0
+ 671:   RETURN
+ 672:   CALL             __types  0  20
+DONE
+   0:   stack: 0           BRA                50
+  52:   stack: 0           CALL               2    0    1  
+   2:   stack: 3           PUSH_STRING        "\n--------------------------"
+   4:   stack: 4           PRINT
+   5:   stack: 3           PUSH_STRING        "Running factorial.ant..."
+   7:   stack: 4           PRINT
+   8:   stack: 3           BRA                25
+  35:   stack: 3           PUSH_INT           7
+  37:   stack: 4           CALL               10   1    0  
+  10:   stack: 6           PUSH_VAR           -2
+  12:   stack: 7           PUSH_INT           0
+  14:   stack: 8           LOGICALOP ==
+  15:   stack: 7           BRZ                5
+  22:   stack: 6           PUSH_VAR           -2
+  24:   stack: 7           PUSH_VAR           -2
+  26:   stack: 8           PUSH_INT           1
+  28:   stack: 9           SUB                
+  29:   stack: 8           CALL               10   1    0  
+  10:   stack: 10          PUSH_VAR           -2
+  12:   stack: 11          PUSH_INT           0
+  14:   stack: 12          LOGICALOP ==
+  15:   stack: 11          BRZ                5
+  22:   stack: 10          PUSH_VAR           -2
+  24:   stack: 11          PUSH_VAR           -2
+  26:   stack: 12          PUSH_INT           1
+  28:   stack: 13          SUB                
+  29:   stack: 12          CALL               10   1    0  
+  10:   stack: 14          PUSH_VAR           -2
+  12:   stack: 15          PUSH_INT           0
+  14:   stack: 16          LOGICALOP ==
+  15:   stack: 15          BRZ                5
+  22:   stack: 14          PUSH_VAR           -2
+  24:   stack: 15          PUSH_VAR           -2
+  26:   stack: 16          PUSH_INT           1
+  28:   stack: 17          SUB                
+  29:   stack: 16          CALL               10   1    0  
+  10:   stack: 18          PUSH_VAR           -2
+  12:   stack: 19          PUSH_INT           0
+  14:   stack: 20          LOGICALOP ==
+  15:   stack: 19          BRZ                5
+  22:   stack: 18          PUSH_VAR           -2
+  24:   stack: 19          PUSH_VAR           -2
+  26:   stack: 20          PUSH_INT           1
+  28:   stack: 21          SUB                
+  29:   stack: 20          CALL               10   1    0  
+  10:   stack: 22          PUSH_VAR           -2
+  12:   stack: 23          PUSH_INT           0
+  14:   stack: 24          LOGICALOP ==
+  15:   stack: 23          BRZ                5
+  22:   stack: 22          PUSH_VAR           -2
+  24:   stack: 23          PUSH_VAR           -2
+  26:   stack: 24          PUSH_INT           1
+  28:   stack: 25          SUB                
+  29:   stack: 24          CALL               10   1    0  
+  10:   stack: 26          PUSH_VAR           -2
+  12:   stack: 27          PUSH_INT           0
+  14:   stack: 28          LOGICALOP ==
+  15:   stack: 27          BRZ                5
+  22:   stack: 26          PUSH_VAR           -2
+  24:   stack: 27          PUSH_VAR           -2
+  26:   stack: 28          PUSH_INT           1
+  28:   stack: 29          SUB                
+  29:   stack: 28          CALL               10   1    0  
+  10:   stack: 30          PUSH_VAR           -2
+  12:   stack: 31          PUSH_INT           0
+  14:   stack: 32          LOGICALOP ==
+  15:   stack: 31          BRZ                5
+  22:   stack: 30          PUSH_VAR           -2
+  24:   stack: 31          PUSH_VAR           -2
+  26:   stack: 32          PUSH_INT           1
+  28:   stack: 33          SUB                
+  29:   stack: 32          CALL               10   1    0  
+  10:   stack: 34          PUSH_VAR           -2
+  12:   stack: 35          PUSH_INT           0
+  14:   stack: 36          LOGICALOP ==
+  15:   stack: 35          BRZ                5
+  17:   stack: 34          PUSH_INT           1
+  19:   stack: 35          RETURN:            
+  33:   stack: 32          MUL                
+  34:   stack: 31          RETURN:            
+  33:   stack: 28          MUL                
+  34:   stack: 27          RETURN:            
+  33:   stack: 24          MUL                
+  34:   stack: 23          RETURN:            
+  33:   stack: 20          MUL                
+  34:   stack: 19          RETURN:            
+  33:   stack: 16          MUL                
+  34:   stack: 15          RETURN:            
+  33:   stack: 12          MUL                
+  34:   stack: 11          RETURN:            
+  33:   stack: 8           MUL                
+  34:   stack: 7           RETURN:            
+  41:   stack: 4           ASSIGN             1
+  43:   stack: 3           PUSH_STRING        "factorial(7) = "
+  45:   stack: 4           PUSH_VAR           1
+  47:   stack: 5           ADD                
+  48:   stack: 4           PRINT
+  49:   stack: 3           PUSH_INT           0
+  51:   stack: 4           RETURN:            
+  56:   stack: 1           BRA                446
+ 504:   stack: 1           CALL               58   0    1  
+  58:   stack: 4           PUSH_STRING        ""
+  60:   stack: 5           PRINT
+  61:   stack: 4           PUSH_STRING        "--------------------------"
+  63:   stack: 5           PRINT
+  64:   stack: 4           PUSH_STRING        "Running test.ant..."
+  66:   stack: 5           PRINT
+  67:   stack: 4           BRA                6
+  75:   stack: 4           BRA                320
+ 397:   stack: 4           BRA                28
+ 427:   stack: 4           CALL               69   0    0  
+  69:   stack: 6           PUSH_STRING        "f1() outer"
+  71:   stack: 7           PRINT
+  72:   stack: 6           PUSH_INT           0
+  74:   stack: 7           RETURN:            
+ 431:   stack: 5           PUSH_FLOAT         3.000000
+ 433:   stack: 6           PUSH_INT           2
+ 435:   stack: 7           PUSH_FLOAT         0.500000
+ 437:   stack: 8           CALL               77   3    3  
+  77:   stack: 13          BRA                6
+  85:   stack: 13          CALL               79   0    0  
+  79:   stack: 15          PUSH_STRING        "f1() inner"
+  81:   stack: 16          PRINT
+  82:   stack: 15          PUSH_INT           0
+  84:   stack: 16          RETURN:            
+  89:   stack: 14          BRA                6
+  97:   stack: 14          CALL               91   0    0  
+  91:   stack: 16          PUSH_STRING        "f3()"
+  93:   stack: 17          PRINT
+  94:   stack: 16          PUSH_INT           0
+  96:   stack: 17          RETURN:            
+ 101:   stack: 15          PUSH_INT           5
+ 103:   stack: 16          ASSIGN             1
+ 105:   stack: 15          PUSH_INT           6
+ 107:   stack: 16          ASSIGN             2
+ 109:   stack: 15          PUSH_VAR           1
+ 111:   stack: 16          PUSH_STRING        " < 5: "
+ 113:   stack: 17          PUSH_VAR           1
+ 115:   stack: 18          PUSH_INT           5
+ 117:   stack: 19          LOGICALOP <
+ 118:   stack: 18          ADD                
+ 119:   stack: 17          ADD                
+ 120:   stack: 16          PRINT
+ 121:   stack: 15          PUSH_VAR           1
+ 123:   stack: 16          PUSH_STRING        " <= 5: "
+ 125:   stack: 17          PUSH_VAR           1
+ 127:   stack: 18          PUSH_INT           5
+ 129:   stack: 19          LOGICALOP <=
+ 130:   stack: 18          ADD                
+ 131:   stack: 17          ADD                
+ 132:   stack: 16          PRINT
+ 133:   stack: 15          PUSH_VAR           1
+ 135:   stack: 16          PUSH_STRING        " > 5: "
+ 137:   stack: 17          PUSH_VAR           1
+ 139:   stack: 18          PUSH_INT           5
+ 141:   stack: 19          LOGICALOP >
+ 142:   stack: 18          ADD                
+ 143:   stack: 17          ADD                
+ 144:   stack: 16          PRINT
+ 145:   stack: 15          PUSH_VAR           1
+ 147:   stack: 16          PUSH_STRING        " >= 5: "
+ 149:   stack: 17          PUSH_VAR           1
+ 151:   stack: 18          PUSH_INT           5
+ 153:   stack: 19          LOGICALOP >=
+ 154:   stack: 18          ADD                
+ 155:   stack: 17          ADD                
+ 156:   stack: 16          PRINT
+ 157:   stack: 15          PUSH_VAR           1
+ 159:   stack: 16          PUSH_STRING        " == 5: "
+ 161:   stack: 17          PUSH_VAR           1
+ 163:   stack: 18          PUSH_INT           5
+ 165:   stack: 19          LOGICALOP ==
+ 166:   stack: 18          ADD                
+ 167:   stack: 17          ADD                
+ 168:   stack: 16          PRINT
+ 169:   stack: 15          PUSH_VAR           1
+ 171:   stack: 16          PUSH_STRING        " != 5: "
+ 173:   stack: 17          PUSH_VAR           1
+ 175:   stack: 18          PUSH_INT           5
+ 177:   stack: 19          LOGICALOP !=
+ 178:   stack: 18          ADD                
+ 179:   stack: 17          ADD                
+ 180:   stack: 16          PRINT
+ 181:   stack: 15          PUSH_VAR           1
+ 183:   stack: 16          PUSH_INT           5
+ 185:   stack: 17          LOGICALOP <
+ 186:   stack: 16          BRZ                8
+ 196:   stack: 15          PUSH_VAR           1
+ 198:   stack: 16          PUSH_INT           5
+ 200:   stack: 17          LOGICALOP >
+ 201:   stack: 16          BRZ                8
+ 211:   stack: 15          PUSH_VAR           1
+ 213:   stack: 16          PUSH_VAR           2
+ 215:   stack: 17          LOGICALOP <
+ 216:   stack: 16          BRZ                5
+ 218:   stack: 15          PUSH_STRING        "i < j"
+ 220:   stack: 16          PRINT
+ 221:   stack: 15          BRA                0
+ 223:   stack: 15          PUSH_VAR           1
+ 225:   stack: 16          PUSH_STRING        " == 5"
+ 227:   stack: 17          ADD                
+ 228:   stack: 16          PRINT
+ 229:   stack: 15          PUSH_INT           0
+ 231:   stack: 16          ASSIGN             1
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 240:   stack: 15          PUSH_STRING        "while "
+ 242:   stack: 16          PUSH_VAR           1
+ 244:   stack: 17          PUSH_STRING        " of 5"
+ 246:   stack: 18          ADD                
+ 247:   stack: 17          ADD                
+ 248:   stack: 16          PRINT
+ 249:   stack: 15          PUSH_VAR           1
+ 251:   stack: 16          PUSH_INT           1
+ 253:   stack: 17          ADD                
+ 254:   stack: 16          ASSIGN             1
+ 256:   stack: 15          BRA                -25
+ 233:   stack: 15          PUSH_VAR           1
+ 235:   stack: 16          PUSH_INT           5
+ 237:   stack: 17          LOGICALOP <=
+ 238:   stack: 16          BRZ                18
+ 258:   stack: 15          PUSH_VAR           -4
+ 260:   stack: 16          PUSH_FLOAT         2.000000
+ 262:   stack: 17          PUSH_INT           1
+ 264:   stack: 18          PUSH_ARRAY         
+ 266:   stack: 19          ASSIGN             3
+ 268:   stack: 18          PUSH_INT           0
+ 270:   stack: 19          ASSIGN             1
+ 272:   stack: 18          PUSH_VAR           1
+ 274:   stack: 19          PUSH_INT           3
+ 276:   stack: 20          LOGICALOP <
+ 277:   stack: 19          BRZ                24
+ 279:   stack: 18          PUSH_STRING        "array["
+ 281:   stack: 19          PUSH_VAR           1
+ 283:   stack: 20          PUSH_STRING        "] = "
+ 285:   stack: 21          PUSH_VAR           3
+ 287:   stack: 22          PUSH_VAR           1
+ 289:   stack: 23          GET                
+ 290:   stack: 22          ADD                
+ 291:   stack: 21          ADD                
+ 292:   stack: 20          ADD                
+ 293:   stack: 19          PRINT
+ 294:   stack: 18          PUSH_VAR           1
+ 296:   stack: 19          PUSH_INT           1
+ 298:   stack: 20          ADD                
+ 299:   stack: 19          ASSIGN             1
+ 301:   stack: 18          BRA                -31
+ 272:   stack: 18          PUSH_VAR           1
+ 274:   stack: 19          PUSH_INT           3
+ 276:   stack: 20          LOGICALOP <
+ 277:   stack: 19          BRZ                24
+ 279:   stack: 18          PUSH_STRING        "array["
+ 281:   stack: 19          PUSH_VAR           1
+ 283:   stack: 20          PUSH_STRING        "] = "
+ 285:   stack: 21          PUSH_VAR           3
+ 287:   stack: 22          PUSH_VAR           1
+ 289:   stack: 23          GET                
+ 290:   stack: 22          ADD                
+ 291:   stack: 21          ADD                
+ 292:   stack: 20          ADD                
+ 293:   stack: 19          PRINT
+ 294:   stack: 18          PUSH_VAR           1
+ 296:   stack: 19          PUSH_INT           1
+ 298:   stack: 20          ADD                
+ 299:   stack: 19          ASSIGN             1
+ 301:   stack: 18          BRA                -31
+ 272:   stack: 18          PUSH_VAR           1
+ 274:   stack: 19          PUSH_INT           3
+ 276:   stack: 20          LOGICALOP <
+ 277:   stack: 19          BRZ                24
+ 279:   stack: 18          PUSH_STRING        "array["
+ 281:   stack: 19          PUSH_VAR           1
+ 283:   stack: 20          PUSH_STRING        "] = "
+ 285:   stack: 21          PUSH_VAR           3
+ 287:   stack: 22          PUSH_VAR           1
+ 289:   stack: 23          GET                
+ 290:   stack: 22          ADD                
+ 291:   stack: 21          ADD                
+ 292:   stack: 20          ADD                
+ 293:   stack: 19          PRINT
+ 294:   stack: 18          PUSH_VAR           1
+ 296:   stack: 19          PUSH_INT           1
+ 298:   stack: 20          ADD                
+ 299:   stack: 19          ASSIGN             1
+ 301:   stack: 18          BRA                -31
+ 272:   stack: 18          PUSH_VAR           1
+ 274:   stack: 19          PUSH_INT           3
+ 276:   stack: 20          LOGICALOP <
+ 277:   stack: 19          BRZ                24
+ 303:   stack: 18          PUSH_VAR           3
+ 305:   stack: 19          PUSH_INT           0
+ 307:   stack: 20          PUSH_INT           1234
+ 309:   stack: 21          SET                
+ 310:   stack: 19          PUSH_VAR           3
+ 312:   stack: 20          PUSH_INT           0
+ 314:   stack: 21          GET                
+ 315:   stack: 20          PRINT
+ 316:   stack: 19          PUSH_STRING        "a: "
+ 318:   stack: 20          PUSH_VAR           -2
+ 320:   stack: 21          ADD                
+ 321:   stack: 20          PRINT
+ 322:   stack: 19          PUSH_STRING        "b: "
+ 324:   stack: 20          PUSH_VAR           -3
+ 326:   stack: 21          ADD                
+ 327:   stack: 20          PRINT
+ 328:   stack: 19          PUSH_STRING        "c: "
+ 330:   stack: 20          PUSH_VAR           -4
+ 332:   stack: 21          ADD                
+ 333:   stack: 20          PRINT
+ 334:   stack: 19          PUSH_STRING        "'a' + 'b': "
+ 336:   stack: 20          PUSH_STRING        "a"
+ 338:   stack: 21          PUSH_STRING        "b"
+ 340:   stack: 22          ADD                
+ 341:   stack: 21          ADD                
+ 342:   stack: 20          PRINT
+ 343:   stack: 19          PUSH_STRING        "5.0 + a: "
+ 345:   stack: 20          PUSH_FLOAT         5.000000
+ 347:   stack: 21          PUSH_VAR           -2
+ 349:   stack: 22          ADD                
+ 350:   stack: 21          ADD                
+ 351:   stack: 20          PRINT
+ 352:   stack: 19          PUSH_STRING        "5.0 - a: "
+ 354:   stack: 20          PUSH_FLOAT         5.000000
+ 356:   stack: 21          PUSH_VAR           -2
+ 358:   stack: 22          SUB                
+ 359:   stack: 21          ADD                
+ 360:   stack: 20          PRINT
+ 361:   stack: 19          PUSH_STRING        "5.0 * b: "
+ 363:   stack: 20          PUSH_FLOAT         5.000000
+ 365:   stack: 21          PUSH_VAR           -3
+ 367:   stack: 22          MUL                
+ 368:   stack: 21          ADD                
+ 369:   stack: 20          PRINT
+ 370:   stack: 19          PUSH_STRING        "20.0 / b: "
+ 372:   stack: 20          PUSH_FLOAT         20.000000
+ 374:   stack: 21          PUSH_VAR           -3
+ 376:   stack: 22          DIV                
+ 377:   stack: 21          ADD                
+ 378:   stack: 20          PRINT
+ 379:   stack: 19          PUSH_STRING        "10 mod 4: "
+ 381:   stack: 20          PUSH_INT           10
+ 383:   stack: 21          PUSH_INT           4
+ 385:   stack: 22          MOD                
+ 386:   stack: 21          ADD                
+ 387:   stack: 20          PRINT
+ 388:   stack: 19          PUSH_VAR           -2
+ 390:   stack: 20          PUSH_VAR           -3
+ 392:   stack: 21          PUSH_VAR           -4
+ 394:   stack: 22          MUL                
+ 395:   stack: 21          ADD                
+ 396:   stack: 20          RETURN:            
+ 441:   stack: 6           ASSIGN             1
+ 443:   stack: 5           PUSH_VAR           1
+ 445:   stack: 6           PRINT
+ 446:   stack: 5           PUSH_INT           2
+ 448:   stack: 6           PUSH_INT           1
+ 450:   stack: 7           CALL               399  2    1  
+ 399:   stack: 10          PUSH_VAR           -2
+ 401:   stack: 11          PUSH_VAR           -3
+ 403:   stack: 12          ADD                
+ 404:   stack: 11          ASSIGN             1
+ 406:   stack: 10          PUSH_STRING        "add("
+ 408:   stack: 11          PUSH_VAR           -2
+ 410:   stack: 12          PUSH_STRING        ", "
+ 412:   stack: 13          PUSH_VAR           -3
+ 414:   stack: 14          PUSH_STRING        "): "
+ 416:   stack: 15          PUSH_VAR           1
+ 418:   stack: 16          ADD                
+ 419:   stack: 15          ADD                
+ 420:   stack: 14          ADD                
+ 421:   stack: 13          ADD                
+ 422:   stack: 12          ADD                
+ 423:   stack: 11          PRINT
+ 424:   stack: 10          PUSH_VAR           1
+ 426:   stack: 11          RETURN:            
+ 454:   stack: 6           PUSH_INT           8
+ 456:   stack: 7           PUSH_INT           4
+ 458:   stack: 8           CALL               399  2    1  
+ 399:   stack: 11          PUSH_VAR           -2
+ 401:   stack: 12          PUSH_VAR           -3
+ 403:   stack: 13          ADD                
+ 404:   stack: 12          ASSIGN             1
+ 406:   stack: 11          PUSH_STRING        "add("
+ 408:   stack: 12          PUSH_VAR           -2
+ 410:   stack: 13          PUSH_STRING        ", "
+ 412:   stack: 14          PUSH_VAR           -3
+ 414:   stack: 15          PUSH_STRING        "): "
+ 416:   stack: 16          PUSH_VAR           1
+ 418:   stack: 17          ADD                
+ 419:   stack: 16          ADD                
+ 420:   stack: 15          ADD                
+ 421:   stack: 14          ADD                
+ 422:   stack: 13          ADD                
+ 423:   stack: 12          PRINT
+ 424:   stack: 11          PUSH_VAR           1
+ 426:   stack: 12          RETURN:            
+ 462:   stack: 7           PUSH_INT           0
+ 464:   stack: 8           PUSH_FLOAT         0.000000
+ 466:   stack: 9           CALL               399  2    1  
+ 399:   stack: 12          PUSH_VAR           -2
+ 401:   stack: 13          PUSH_VAR           -3
+ 403:   stack: 14          ADD                
+ 404:   stack: 13          ASSIGN             1
+ 406:   stack: 12          PUSH_STRING        "add("
+ 408:   stack: 13          PUSH_VAR           -2
+ 410:   stack: 14          PUSH_STRING        ", "
+ 412:   stack: 15          PUSH_VAR           -3
+ 414:   stack: 16          PUSH_STRING        "): "
+ 416:   stack: 17          PUSH_VAR           1
+ 418:   stack: 18          ADD                
+ 419:   stack: 17          ADD                
+ 420:   stack: 16          ADD                
+ 421:   stack: 15          ADD                
+ 422:   stack: 14          ADD                
+ 423:   stack: 13          PRINT
+ 424:   stack: 12          PUSH_VAR           1
+ 426:   stack: 13          RETURN:            
+ 470:   stack: 8           PUSH_INT           0
+ 472:   stack: 9           PUSH_FLOAT         2.000000
+ 474:   stack: 10          SUB                
+ 475:   stack: 9           PUSH_INT           0
+ 477:   stack: 10          PUSH_INT           1
+ 479:   stack: 11          SUB                
+ 480:   stack: 10          CALL               399  2    1  
+ 399:   stack: 13          PUSH_VAR           -2
+ 401:   stack: 14          PUSH_VAR           -3
+ 403:   stack: 15          ADD                
+ 404:   stack: 14          ASSIGN             1
+ 406:   stack: 13          PUSH_STRING        "add("
+ 408:   stack: 14          PUSH_VAR           -2
+ 410:   stack: 15          PUSH_STRING        ", "
+ 412:   stack: 16          PUSH_VAR           -3
+ 414:   stack: 17          PUSH_STRING        "): "
+ 416:   stack: 18          PUSH_VAR           1
+ 418:   stack: 19          ADD                
+ 419:   stack: 18          ADD                
+ 420:   stack: 17          ADD                
+ 421:   stack: 16          ADD                
+ 422:   stack: 15          ADD                
+ 423:   stack: 14          PRINT
+ 424:   stack: 13          PUSH_VAR           1
+ 426:   stack: 14          RETURN:            
+ 484:   stack: 9           PUSH_INT           0
+ 486:   stack: 10          PUSH_INT           3
+ 488:   stack: 11          SUB                
+ 489:   stack: 10          PUSH_INT           3
+ 491:   stack: 11          CALL               399  2    1  
+ 399:   stack: 14          PUSH_VAR           -2
+ 401:   stack: 15          PUSH_VAR           -3
+ 403:   stack: 16          ADD                
+ 404:   stack: 15          ASSIGN             1
+ 406:   stack: 14          PUSH_STRING        "add("
+ 408:   stack: 15          PUSH_VAR           -2
+ 410:   stack: 16          PUSH_STRING        ", "
+ 412:   stack: 17          PUSH_VAR           -3
+ 414:   stack: 18          PUSH_STRING        "): "
+ 416:   stack: 19          PUSH_VAR           1
+ 418:   stack: 20          ADD                
+ 419:   stack: 19          ADD                
+ 420:   stack: 18          ADD                
+ 421:   stack: 17          ADD                
+ 422:   stack: 16          ADD                
+ 423:   stack: 15          PRINT
+ 424:   stack: 14          PUSH_VAR           1
+ 426:   stack: 15          RETURN:            
+ 495:   stack: 10          PUSH_STRING        "Done!"
+ 497:   stack: 11          PRINT
+ 498:   stack: 10          PUSH_STRING        ""
+ 500:   stack: 11          PRINT
+ 501:   stack: 10          PUSH_INT           0
+ 503:   stack: 11          RETURN:            
+ 508:   stack: 2           BRA                162
+ 672:   stack: 2           CALL               510  0    20 
+ 510:   stack: 24          PUSH_STRING        "\n--------------------------"
+ 512:   stack: 25          PRINT
+ 513:   stack: 24          PUSH_STRING        "Running types.ant...\n"
+ 515:   stack: 25          PRINT
+ 516:   stack: 24          PUSH_INT           2147483647
+ 518:   stack: 25          ASSIGN             1
+ 520:   stack: 24          PUSH_INT           0
+ 522:   stack: 25          PUSH_INT           2147483647
+ 524:   stack: 26          SUB                
+ 525:   stack: 25          ASSIGN             2
+ 527:   stack: 24          PUSH_INT           0
+ 529:   stack: 25          ASSIGN             3
+ 531:   stack: 24          PUSH_INT           2147483647
+ 533:   stack: 25          ASSIGN             4
+ 535:   stack: 24          PUSH_STRING        "INT_MIN, INT_MAX: "
+ 537:   stack: 25          PUSH_VAR           2
+ 539:   stack: 26          PUSH_STRING        ", "
+ 541:   stack: 27          PUSH_VAR           1
+ 543:   stack: 28          ADD                
+ 544:   stack: 27          ADD                
+ 545:   stack: 26          ADD                
+ 546:   stack: 25          PRINT
+ 547:   stack: 24          PUSH_STRING        "UINT_MIN, UINT_MAX: "
+ 549:   stack: 25          PUSH_VAR           3
+ 551:   stack: 26          PUSH_STRING        ", "
+ 553:   stack: 27          PUSH_VAR           4
+ 555:   stack: 28          ADD                
+ 556:   stack: 27          ADD                
+ 557:   stack: 26          ADD                
+ 558:   stack: 25          PRINT
+ 559:   stack: 24          PUSH_INT           25
+ 561:   stack: 25          ASSIGN             5
+ 563:   stack: 24          PUSH_INT           0
+ 565:   stack: 25          PUSH_INT           4
+ 567:   stack: 26          SUB                
+ 568:   stack: 25          ASSIGN             6
+ 570:   stack: 24          PUSH_VAR           1
+ 572:   stack: 25          ASSIGN             7
+ 574:   stack: 24          PUSH_VAR           2
+ 576:   stack: 25          ASSIGN             8
+ 578:   stack: 24          PUSH_VAR           3
+ 580:   stack: 25          ASSIGN             9
+ 582:   stack: 24          PUSH_VAR           4
+ 584:   stack: 25          ASSIGN             10
+ 586:   stack: 24          PUSH_INT           0
+ 588:   stack: 25          PUSH_FLOAT         3.000000
+ 590:   stack: 26          SUB                
+ 591:   stack: 25          ASSIGN             11
+ 593:   stack: 24          PUSH_FLOAT         250.399994
+ 595:   stack: 25          ASSIGN             12
+ 597:   stack: 24          PUSH_INT           3
+ 599:   stack: 25          ASSIGN             13
+ 601:   stack: 24          PUSH_STRING        "a"
+ 603:   stack: 25          ASSIGN             14
+ 605:   stack: 24          PUSH_FLOAT         0.000000
+ 607:   stack: 25          ASSIGN             15
+ 609:   stack: 24          PUSH_FLOAT         0.100000
+ 611:   stack: 25          ASSIGN             16
+ 613:   stack: 24          PUSH_FLOAT         0.500000
+ 615:   stack: 25          ASSIGN             17
+ 617:   stack: 24          PUSH_FLOAT         0.100000
+ 619:   stack: 25          ASSIGN             18
+ 621:   stack: 24          PUSH_VAR           10
+ 623:   stack: 25          PUSH_VAR           9
+ 625:   stack: 26          PUSH_VAR           8
+ 627:   stack: 27          PUSH_VAR           7
+ 629:   stack: 28          PUSH_VAR           6
+ 631:   stack: 29          PUSH_VAR           5
+ 633:   stack: 30          PUSH_ARRAY         
+ 635:   stack: 31          ASSIGN             19
+ 637:   stack: 30          PUSH_VAR           18
+ 639:   stack: 31          PUSH_VAR           17
+ 641:   stack: 32          PUSH_VAR           16
+ 643:   stack: 33          PUSH_VAR           15
+ 645:   stack: 34          PUSH_VAR           14
+ 647:   stack: 35          PUSH_VAR           13
+ 649:   stack: 36          PUSH_VAR           12
+ 651:   stack: 37          PUSH_VAR           11
+ 653:   stack: 38          PUSH_ARRAY         
+ 655:   stack: 39          ASSIGN             20
+ 657:   stack: 38          PUSH_STRING        "vi: "
+ 659:   stack: 39          PUSH_VAR           19
+ 661:   stack: 40          ADD                
+ 662:   stack: 39          PRINT
+ 663:   stack: 38          PUSH_STRING        "vf: "
+ 665:   stack: 39          PUSH_VAR           20
+ 667:   stack: 40          ADD                
+ 668:   stack: 39          PRINT
+ 669:   stack: 38          PUSH_INT           0
+ 671:   stack: 39          RETURN:            
+DONE
+
+
+
+Output:
+--------------------------
+Running factorial.ant...
+factorial(7) = 5040
+
+--------------------------
+Running test.ant...
+f1() outer
+f1() inner
+f3()
+5 < 5: 0
+5 <= 5: 1
+5 > 5: 0
+5 >= 5: 1
+5 == 5: 1
+5 != 5: 0
+i < j
+5 == 5
+while 0 of 5
+while 1 of 5
+while 2 of 5
+while 3 of 5
+while 4 of 5
+while 5 of 5
+array[0] = 1
+array[1] = 2.000000
+array[2] = 3.000000
+1
+a: 0.500000
+b: 2
+c: 3.000000
+'a' + 'b': ab
+5.0 + a: 5.500000
+5.0 - a: 4.500000
+5.0 * b: 10.000000
+20.0 / b: 10.000000
+10 mod 4: 2
+6.500000
+add(1, 2): 3
+add(4, 8): 12
+add(0.000000, 0): 0.000000
+add(-1, -2.000000): -3.000000
+add(3, -3): 0
+Done!
+
+--------------------------
+Running types.ant...
+INT_MIN, INT_MAX: -2147483647, 2147483647
+UINT_MIN, UINT_MAX: 0, 2147483647
+vi: 
+{
+   25,
+   -4,
+   2147483647,
+   -2147483647,
+   0,
+   2147483647,
+}
+vf: 
+{
+   -3.000000,
+   250.399994,
+   3,
+   a,
+   0.000000,
+   0.100000,
+   0.500000,
+   0.100000,
+}
+
 --------------- Done ---------------
