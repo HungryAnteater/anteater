@@ -1,5 +1,8 @@
+//-----------------------------------------------------------------------------
+// Copyright (C) Andrew Coggin, 2020
+// All rights reserved.
+//-----------------------------------------------------------------------------
 #pragma once
-
 #pragma warning (disable : 4311)
 #pragma warning (disable : 4312)
 
@@ -15,74 +18,150 @@
 #include <unordered_map>
 #include <variant>
 
-//#define WIN32_LEAN_AND_MEAN
-//#include <windows.h>
-//#undef min
-//#undef max
-
-#define TCT  template <class T>
-#define TCTU template <class T, class U>
-#define TCTS template <class... Ts>
-
-using cstr = const char*;
-using ccstr = const char* const;
-
 using namespace std;
 
-template <typename V>
-using dictionary = unordered_map<string, V>;
+using cstr = const char*;
+using sview = string_view;
+using kview = const string_view&;
 
-inline void Output(const string& msg)
+template <class T, class K=string>
+using dictionary = unordered_map<K, T>;
+
+template <class T, class U>
+auto AddUnique(unordered_map<T, U>& map, const T& key, const U& val)
 {
-	static ofstream output("log.txt");
-	cout << msg;
-	output << msg;
-    //OutputDebugStringA(msg.c_str());
+    auto [i, success] = map.try_emplace(key, val);
+    if (!success) throw exception("Tried to add duplicate value to unordered_map");
+    return i;
 }
 
-string format(const char* fmt, ...);
-const char* sformat(const char* fmt, ...);
+cstr sformat(cstr fmt, ...);
+cstr sformat_put(const string_view& s);
 
 template <class... Args>
-void Print(const char* fmt, Args&&... args)
+string format(Args&&... args)
 {
-    Output(format(fmt, args...));
+    return sformat(args...);
 }
 
-inline void Print(const string& msg) { Output(msg); }
+void Print(cstr s);
+inline void Print(const string& msg) { Print(msg.c_str()); }
+template <class... Ts>
+void Print(cstr fmt, Ts&&... args) { Print(sformat(fmt, args...)); }
 
 struct AntError : public exception
 {
     template <class... Args>
-    AntError(ccstr fmt, Args&&... args): exception(format(fmt, args...).c_str()) {}
-
-    AntError(ccstr s): exception(s) {}
+    AntError(cstr fmt, Args&&... args): exception(sformat(fmt, args...)) {}
+    AntError(cstr s): exception(s) {}
     AntError(const string& s): exception(s.c_str()) {}
 };
 
-template <class... Args>
-void Error(Args&&... args) { throw AntError(args...); }
+inline sview Left(kview s, size_t i)    { return s.substr(0, i); }
+inline sview Right(kview s, size_t i)   { return s.substr(min(i+1, s.size())); }
 
-//#define AntError(type, line, msg, ...) Error("%s error, line %d: %s\n", type, line, format(msg, __VA_ARGS__).c_str())
-//#define LexError(msg, ...) throw AntError("Lex Error: ", format(msg, __VA_ARGS__))  //Error("Lex", line, msg, __VA_ARGS__)
-//#define ParseError(msg, ...) throw AntError("Parse Error: ", format(msg, __VA_ARGS__))
-#define AssertThrow(exp) if (!(exp)) Error("Assertion failed: " #exp)
+inline sview NoFolder(kview s)          { return Right(s, s.find_last_of("/\\")); }
+inline sview NoExtension(kview s)       { return Left(s, s.find_first_of('.')); }
 
-string LoadFile(const char* path);
+string LoadFile(cstr path);
 
-class EnumMap
+inline constexpr size_t fnv_offset_basis = 14695981039346656037ULL;
+inline constexpr size_t fnv_prime        = 1099511628211ULL;
+
+inline size_t fnv1a_append_bytes(size_t val, const unsigned char* const v, const size_t count) noexcept
 {
-    cstr* entries;
-    size_t size;
-
-public:
-    EnumMap(initializer_list<pair<int, cstr>> init):
-        entries(new cstr[init.size()]),
-        size(init.size())
+    for (size_t i=0; i<count; i++)
     {
-        for (const auto& [idx, val]: init)
-            entries[idx] = val;
+        val ^= (size_t)v[i];
+        val *= fnv_prime;
     }
 
-    const cstr& operator[](size_t i) const { assert(i<size); return entries[i]; }
+    return val;
+}
+
+template <class T>
+size_t hash_array(const T* const v, const size_t count) noexcept
+{
+    static_assert(is_trivial_v<T>, "Only trivial types can be directly hashed.");
+    return fnv1a_append_bytes(fnv_offset_basis, (const unsigned char*)v, count * sizeof(T));
+}
+
+template <>
+struct hash<cstr>
+{
+    size_t operator()(cstr key) const noexcept { return hash_array(key, strlen(key)); }
+};
+
+template <>
+struct equal_to<cstr>
+{
+	bool operator()(cstr x, cstr y) const { return strcmp(x,y) == 0; }
+};
+
+template <class K=int, class V=cstr>
+class EnumMap
+{
+    static_assert(is_integral_v<K> | is_enum_v<K>);
+    vector<V> vals;
+    unordered_map<V, K> keys;
+
+public:
+    EnumMap(initializer_list<pair<K, const V>> init): vals(init.size())
+    {
+        for (const auto& [i, v]: init)
+        {
+            vals[(int)i] = v;
+            auto [i, inserted] = keys.try_emplace(v, i);
+            if (!inserted) throw exception("Tried to insert duplicate key");
+        }
+    }
+
+    const V& operator[](const K& key) const { return vals.at(key); }
+    const K& operator[](const V& val) const { return keys.at(val); }
+
+    bool FindKey(const V& val, K& key) const { return ::Find(keys, val, key); }
+};
+
+template <class K, class V>
+bool Find(const unordered_map<K, V>& map, const K& key, V& val)
+{
+    auto i = map.find(key);
+    bool ret = i != map.end();
+    if (ret) val = i->second;
+    return ret;
+}
+
+template <class K, class V>
+class BiMap
+{
+public:
+    unordered_map<K, V> vals;
+    unordered_map<V, K> keys;
+
+    BiMap(initializer_list<pair<const K, V>> init): vals(init)
+    {
+        for (auto& [t, u]: init)
+            keys.emplace(u, t);
+    }
+
+    const V* find(const K& t) const { return vals.find(t); }
+    const K* find(const V& u) const { return keys.find(u); }
+
+    const V& operator[](const K& key) const { return vals.at(key); }
+    const K& From(const V& key) const { return keys.at(key); }
+
+    V& operator[](const K& key) { return vals.at(key); }
+    K& From(const V& key) { return keys.at(key); }
+
+    auto Add(const K& key, const V& val)
+    {
+        return pair
+        {
+            AddUnique(vals, key, val),
+            AddUnique(keys, val, key)
+        };
+    }
+
+    bool Find(const K& key, V& val) const { return ::Find(vals, key, val); }
+    bool FindKey(const V& val, K& key) const { return ::Find(keys, val, key); }
 };

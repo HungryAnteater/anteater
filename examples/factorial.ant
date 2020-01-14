@@ -1,13 +1,12 @@
-print("");
-print("--------------------------");
+print("\n--------------------------");
 print("Running factorial.ant...");
 
 function factorial(n)
 {
-	if (n == 0)
-		return 1
-	else
-		return n * factorial(n - 1);
+   if (n == 0)
+      return 1
+   else
+      return n * factorial(n - 1);
 };
 
 local f7 = factorial(7);

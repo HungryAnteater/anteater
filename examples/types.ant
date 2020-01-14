@@ -1,6 +1,5 @@
-print("");
-print("--------------------------");
-print("\nRunning types.ant...");
+print("\n--------------------------");
+print("Running types.ant...\n");
 
 local INT_MAX = 2147483647;
 local INT_MIN = -2147483648;
